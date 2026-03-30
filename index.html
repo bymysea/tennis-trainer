@@ -1568,8 +1568,14 @@
 
         function closeAchievement() {
             document.getElementById('achievement-modal').classList.remove('active');
+            // Force refresh current training data
+            currentDrillsCompleted = [];
             backToHome();
-            updateHomePage();
+            // Small delay to ensure state is saved
+            setTimeout(() => {
+                updateHomePage();
+                renderProgressPage();
+            }, 100);
         }
 
         function backToHome() {
@@ -1625,10 +1631,7 @@
                         <div class="session-status">${isCompleted ? '✓' : isCurrent ? '▶' : '○'}</div>
                     `;
                     sessionItem.onclick = () => {
-                        if (isCurrent) {
-                            switchTab('home');
-                            showTraining();
-                        }
+                        showTrainingDetail(training.week, training.session);
                     };
                     
                     weekSection.appendChild(sessionItem);
@@ -1675,6 +1678,50 @@
                         `).join('')}
                     </div>
                     <button class="setup-btn" onclick="document.getElementById('module-detail-modal').remove()" style="margin-top: 8px;">关闭</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        function showTrainingDetail(week, session) {
+            const training = trainingProgram.find(t => t.week === week && t.session === session);
+            if (!training) return;
+
+            const isCompleted = state.completedSessions.some(s => s.week === week && s.session === session);
+            const isCurrent = week === state.currentWeek && session === state.currentSession;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay active';
+            overlay.id = 'training-detail-modal';
+            
+            const statusText = isCompleted ? '已完成 ✓' : isCurrent ? '当前进行 ▶' : '待开始 ○';
+            const statusColor = isCompleted ? '#4ade80' : isCurrent ? '#fbbf24' : '#94a3b8';
+
+            overlay.innerHTML = `
+                <div class="setup-modal" style="max-width: 400px; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <h2 style="margin: 0;">${training.title}</h2>
+                        <span style="color: ${statusColor}; font-size: 14px; font-weight: 600;">${statusText}</span>
+                    </div>
+                    <p class="subtitle" style="margin-bottom: 16px;">第 ${training.week} 周 · 第 ${training.session} 次 · ${training.subtitle}</p>
+                    
+                    <div style="margin-bottom: 20px;">
+                        ${training.drills.map((drill, i) => `
+                            <div style="padding: 14px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 10px; ${isCompleted ? 'border-left: 3px solid #4ade80;' : ''}">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-weight: 600; font-size: 15px;">${i + 1}. ${drill.name}</span>
+                                    <span style="font-size: 12px; color: var(--text-muted);">${drill.duration}</span>
+                                </div>
+                                <div style="font-size: 13px; color: var(--accent); margin-bottom: 4px;">目标: ${drill.target}</div>
+                                <div style="font-size: 13px; color: var(--text-muted);">${drill.desc}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button class="setup-btn" onclick="document.getElementById('training-detail-modal').remove()" style="flex: 1; background: rgba(255,255,255,0.1); color: var(--text);">关闭</button>
+                        ${isCurrent ? `<button class="setup-btn" onclick="document.getElementById('training-detail-modal').remove(); showTraining();" style="flex: 1;">开始训练</button>` : ''}
+                    </div>
                 </div>
             `;
             document.body.appendChild(overlay);
