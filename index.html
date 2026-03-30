@@ -1008,29 +1008,49 @@
                 <div class="value" id="preview-level">2.50</div>
             </div>
             
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">🎾</span> <span class="skill-name">正手</span></span>
-                <input type="number" class="skill-input" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
-            </div>
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">🎯</span> <span class="skill-name">反手</span></span>
-                <input type="number" class="skill-input" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
-            </div>
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">🚀</span> <span class="skill-name">发球</span></span>
-                <input type="number" class="skill-input" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
-            </div>
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">⚡</span> <span class="skill-name">接发</span></span>
-                <input type="number" class="skill-input" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
-            </div>
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">🏃</span> <span class="skill-name">截击</span></span>
-                <input type="number" class="skill-input" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
-            </div>
-            <div class="skill-input-group">
-                <span class="skill-label"><span class="skill-icon">💪</span> <span class="skill-name">体能</span></span>
-                <input type="number" class="skill-input" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            <div style="display: table; width: 100%; border-collapse: separate; border-spacing: 0 12px;">
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">🎾</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">正手</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">🎯</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">反手</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">🚀</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">发球</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">⚡</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">接发</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">🏃</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">截击</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: table-row;">
+                    <div style="display: table-cell; vertical-align: middle; width: 40px; font-size: 20px;">💪</div>
+                    <div style="display: table-cell; vertical-align: middle; font-size: 16px;">体能</div>
+                    <div style="display: table-cell; vertical-align: middle; width: 80px; text-align: right;">
+                        <input type="number" style="width: 70px; padding: 10px 0; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text); font-size: 16px; text-align: center; font-weight: 600;" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+                    </div>
+                </div>
             </div>
             
             <button class="setup-btn" onclick="saveSetup()">开始训练</button>
