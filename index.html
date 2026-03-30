@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#1e3a5f">
+    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>网球进阶教练</title>
@@ -14,151 +14,162 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: rgba(74, 222, 128, 0.3);
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --primary: #1e3a5f;
-            --primary-dark: #152a45;
-            --accent: #4ade80;
-            --accent-dark: #22c55e;
-            --warning: #fbbf24;
-            --danger: #ef4444;
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg: #000000;
+            --card: #1c1c1e;
+            --card-elevated: #2c2c2e;
+            --accent: #30d158;
+            --accent-dark: #248a3d;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #636366;
+            --separator: #38383a;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding-bottom: 100px;
+            padding-bottom: 80px;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* Header - iOS风格 */
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: calc(20px + env(safe-area-inset-top)) 20px 20px;
-            text-align: center;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: calc(12px + env(safe-area-inset-top)) 20px 12px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            padding-top: max(20px, env(safe-area-inset-top));
+            border-bottom: 0.5px solid var(--separator);
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        /* 等级显示 - iOS大标题风格 */
+        .level-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .level-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .level-value {
+            font-size: 48px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 12px;
         }
 
-        .header .tennis-ball {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #c8e636 0%, #9bc53d 100%);
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        .level-target {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
         }
 
-        .header .tennis-ball::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: rgba(255,255,255,0.4);
-            top: 50%;
-            transform: translateY(-50%) rotate(-45deg);
+        .level-target span {
+            color: var(--accent);
+            font-weight: 600;
         }
 
-        .level-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        .level-badge .progress {
-            width: 100px;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
+        /* iOS风格进度条 */
+        .ios-progress {
+            height: 4px;
+            background: var(--card-elevated);
+            border-radius: 2px;
             overflow: hidden;
+            margin: 0 20px 8px;
         }
 
-        .level-badge .progress-bar {
+        .ios-progress-bar {
             height: 100%;
             background: var(--accent);
-            border-radius: 3px;
-            transition: width 0.5s ease;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* 统计卡片 - iOS小组件风格 */
+        .stats-section {
+            padding: 0 16px 20px;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 16px;
+            gap: 10px;
         }
 
         .stat-card {
             background: var(--card);
             border-radius: 16px;
-            padding: 16px 12px;
+            padding: 14px 10px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .stat-card .number {
+        .stat-value {
             font-size: 28px;
             font-weight: 700;
             color: var(--accent);
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
         }
 
-        .stat-card .label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
-        .section-title {
-            padding: 20px 16px 12px;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Section标题 */
+        .section-header {
+            padding: 24px 20px 8px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 2px;
+        /* 雷达图区域 */
+        .radar-section {
+            padding: 0 16px 20px;
         }
 
-        .skills-radar {
+        .radar-card {
             background: var(--card);
-            margin: 0 16px;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .radar-container {
             position: relative;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             margin: 0 auto;
             aspect-ratio: 1;
         }
@@ -168,214 +179,212 @@
             height: 100%;
         }
 
-        .skill-labels {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
+        /* 今日训练卡片 */
+        .today-section {
+            padding: 0 16px 20px;
         }
 
-        .skill-label {
-            position: absolute;
-            font-size: 11px;
-            color: var(--text-muted);
-            transform: translate(-50%, -50%);
-        }
-
-        .today-training {
+        .today-card {
             background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            margin: 16px;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 8px 24px rgba(74, 222, 128, 0.25);
+            position: relative;
+            overflow: hidden;
         }
 
-        .today-training.completed {
-            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        .today-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            transform: translate(30%, -30%);
         }
 
-        .today-training h3 {
-            font-size: 14px;
-            opacity: 0.9;
+        .today-header {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
 
-        .today-training .title {
-            font-size: 20px;
+        .today-title {
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.02em;
         }
 
-        .today-training .subtitle {
-            font-size: 14px;
-            opacity: 0.85;
+        .today-subtitle {
+            font-size: 15px;
+            opacity: 0.9;
             margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
         }
 
-        .start-btn {
+        .today-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: rgba(255,255,255,0.95);
-            color: var(--primary);
             border: none;
             border-radius: 12px;
+            color: #000;
             font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .start-btn:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .completed-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 16px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 12px;
             font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.1s;
         }
 
-        .module-grid {
+        .today-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 模块网格 */
+        .modules-section {
+            padding: 0 16px 20px;
+        }
+
+        .modules-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 0 16px;
+            gap: 10px;
         }
 
         .module-card {
             background: var(--card);
             border-radius: 16px;
             padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
         }
 
         .module-card:active {
-            transform: scale(0.97);
-            border-color: var(--accent);
-        }
-
-        .module-card.completed::after {
-            content: '✓';
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 24px;
-            height: 24px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: var(--primary-dark);
-            font-weight: 700;
+            background: var(--card-elevated);
+            transform: scale(0.98);
         }
 
         .module-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 12px;
+            font-size: 20px;
+            margin-bottom: 10px;
         }
 
-        .module-card.forehand .module-icon { background: rgba(239, 68, 68, 0.2); }
-        .module-card.backhand .module-icon { background: rgba(59, 130, 246, 0.2); }
-        .module-card.serve .module-icon { background: rgba(168, 85, 247, 0.2); }
-        .module-card.return .module-icon { background: rgba(245, 158, 11, 0.2); }
-        .module-card.volley .module-icon { background: rgba(34, 197, 94, 0.2); }
-        .module-card.fitness .module-icon { background: rgba(236, 72, 153, 0.2); }
+        .module-card.forehand .module-icon { background: rgba(255,59,48,0.15); }
+        .module-card.backhand .module-icon { background: rgba(0,122,255,0.15); }
+        .module-card.serve .module-icon { background: rgba(175,82,222,0.15); }
+        .module-card.return .module-icon { background: rgba(255,149,0,0.15); }
+        .module-card.volley .module-icon { background: rgba(48,209,88,0.15); }
+        .module-card.fitness .module-icon { background: rgba(255,45,85,0.15); }
 
-        .module-card h4 {
+        .module-name {
             font-size: 15px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .module-card p {
+        .module-desc {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
 
-        .module-card .click-hint {
-            font-size: 11px;
+        /* Tab Bar */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            border-top: 0.5px solid var(--separator);
+        }
+
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 10px;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
             color: var(--accent);
-            margin-top: 8px;
-            opacity: 0;
-            transition: opacity 0.2s;
         }
 
-        .module-card:active .click-hint {
-            opacity: 1;
+        .tab-icon {
+            font-size: 22px;
         }
 
-        /* Training Detail Page */
+        /* 页面切换 */
         .page {
             display: none;
-            min-height: 100vh;
-            background: var(--bg);
         }
 
         .page.active {
             display: block;
         }
 
+        /* 训练页面 */
         .training-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: calc(60px + env(safe-area-inset-top)) 20px 30px;
+            background: var(--card);
+            padding: calc(12px + env(safe-area-inset-top)) 20px 20px;
             position: relative;
-            padding-top: max(60px, calc(40px + env(safe-area-inset-top)));
         }
 
         .back-btn {
             position: absolute;
-            top: 20px;
+            top: calc(12px + env(safe-area-inset-top));
             left: 16px;
-            width: 44px;
-            height: 44px;
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 12px;
-            color: white;
-            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
         }
 
-        .back-btn:active {
-            background: rgba(255,255,255,0.3);
-            transform: scale(0.95);
+        .training-title {
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4px;
         }
 
-        .training-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .training-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
         }
 
-        .training-header p {
-            opacity: 0.85;
-            font-size: 14px;
-        }
-
+        /* Drill卡片 */
         .drill-list {
             padding: 16px;
             padding-bottom: 100px;
@@ -384,166 +393,118 @@
         .drill-card {
             background: var(--card);
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .drill-card.completed {
-            border-color: var(--accent);
-            background: linear-gradient(135deg, var(--card) 0%, rgba(74,222,128,0.1) 100%);
+            padding: 16px;
+            margin-bottom: 10px;
         }
 
         .drill-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
         }
 
         .drill-number {
-            width: 32px;
-            height: 32px;
-            background: var(--primary);
-            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            background: var(--card-elevated);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 600;
             flex-shrink: 0;
         }
 
         .drill-card.completed .drill-number {
             background: var(--accent);
-            color: var(--primary-dark);
+            color: #000;
         }
 
         .drill-title {
             flex: 1;
-            margin-left: 12px;
-        }
-
-        .drill-title h4 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 2px;
         }
 
-        .drill-title span {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .target-badge {
-            background: rgba(74, 222, 128, 0.15);
-            color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
+        .drill-time {
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .drill-desc {
-            color: var(--text-muted);
             font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            padding-left: 40px;
         }
 
         .drill-check {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
+            gap: 10px;
+            padding: 10px;
+            background: var(--card-elevated);
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
+            margin-left: 40px;
         }
 
-        .drill-check:active {
-            background: rgba(255,255,255,0.12);
-            border-color: var(--accent);
-        }
-
-        .checkbox {
-            width: 26px;
-            height: 26px;
-            border: 3px solid var(--text-muted);
-            border-radius: 8px;
+        .check-circle {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--text-tertiary);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
             transition: all 0.2s;
-            flex-shrink: 0;
         }
 
-        .drill-check.completed .checkbox {
+        .drill-check.completed .check-circle {
             background: var(--accent);
             border-color: var(--accent);
         }
 
-        .drill-check.completed .checkbox::after {
-            content: '✓';
-            color: var(--primary-dark);
-            font-weight: 700;
-            font-size: 16px;
+        .drill-check.completed {
+            opacity: 0.6;
         }
 
-        .drill-check span {
-            font-size: 15px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .drill-check.completed span {
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: line-through;
-        }
-
-        .complete-training-btn {
+        /* 完成按钮 */
+        .complete-btn {
             position: fixed;
-            bottom: 100px;
+            bottom: calc(20px + env(safe-area-inset-bottom));
             left: 16px;
             right: 16px;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            color: var(--primary-dark);
+            padding: 16px;
+            background: var(--accent);
             border: none;
-            border-radius: 16px;
-            font-size: 17px;
-            font-weight: 700;
+            border-radius: 12px;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(74, 222, 128, 0.35);
             transition: all 0.2s;
-            z-index: 100;
         }
 
-        .complete-training-btn:disabled {
-            background: #475569;
-            color: var(--text-muted);
-            box-shadow: none;
+        .complete-btn:disabled {
+            background: var(--card-elevated);
+            color: var(--text-tertiary);
             cursor: not-allowed;
         }
 
-        .complete-training-btn:not(:disabled):active {
-            transform: scale(0.97);
+        .complete-btn:not(:disabled):active {
+            transform: scale(0.98);
         }
 
-        /* Success Modal */
+        /* 弹窗 */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.8);
             display: none;
             align-items: center;
             justify-content: center;
@@ -557,605 +518,297 @@
 
         .modal {
             background: var(--card);
-            border-radius: 24px;
-            padding: 40px 32px;
-            text-align: center;
-            max-width: 340px;
+            border-radius: 20px;
+            padding: 24px;
             width: 100%;
-            animation: modalIn 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 340px;
         }
 
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            border-radius: 50%;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            animation: bounce 0.6s ease;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .modal h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .modal p {
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .xp-earned {
-            background: rgba(74, 222, 128, 0.15);
-            padding: 16px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-
-        .xp-earned .label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .xp-earned .value {
-            font-size: 32px;
+        .modal-title {
+            font-size: 18px;
             font-weight: 700;
-            color: var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .skill-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--separator);
+        }
+
+        .skill-input:last-child {
+            border-bottom: none;
+        }
+
+        .skill-name {
+            font-size: 16px;
+        }
+
+        .skill-input input {
+            width: 70px;
+            padding: 8px 12px;
+            background: var(--card-elevated);
+            border: none;
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            text-align: center;
         }
 
         .modal-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: var(--accent);
-            color: var(--primary-dark);
             border: none;
             border-radius: 12px;
+            color: #000;
             font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* Progress Page */
-        .timeline {
-            padding: 16px;
-            padding-bottom: 100px;
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 16px;
-            padding-bottom: 24px;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 44px;
-            bottom: 0;
-            width: 3px;
-            background: var(--card);
-            border-radius: 2px;
-        }
-
-        .timeline-item:last-child::before {
-            display: none;
-        }
-
-        .timeline-dot {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
-            flex-shrink: 0;
-            z-index: 1;
-            border: 3px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .timeline-item.completed .timeline-dot {
-            background: var(--accent);
-            color: var(--primary-dark);
-        }
-
-        .timeline-item.current .timeline-dot {
-            background: var(--primary);
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.2);
-        }
-
-        .timeline-content {
-            flex: 1;
-            background: var(--card);
-            border-radius: 16px;
-            padding: 16px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .timeline-item.current .timeline-content {
-            border-color: var(--accent);
-        }
-
-        .timeline-content h4 {
-            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .timeline-content p {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .tab-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0 28px;
-            border-top: 2px solid rgba(255,255,255,0.08);
-            z-index: 100;
-        }
-
-        .tab-btn {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 12px;
-            font-weight: 500;
+            margin-top: 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            padding: 8px;
-            border-radius: 12px;
         }
 
-        .tab-btn.active {
-            color: var(--accent);
-            background: rgba(74, 222, 128, 0.1);
-        }
-
-        .tab-btn:active {
-            transform: scale(0.95);
-        }
-
-        .tab-btn .icon {
-            width: 28px;
-            height: 28px;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .empty-state {
+        /* 成功弹窗 */
+        .success-modal .modal {
             text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
         }
 
-        .empty-state .icon {
-            font-size: 64px;
+        .success-icon {
+            font-size: 60px;
             margin-bottom: 16px;
-            opacity: 0.5;
         }
 
-        .next-training-preview {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
+        .xp-earned {
+            background: var(--card-elevated);
             padding: 16px;
-            margin-top: 12px;
-            text-align: left;
+            border-radius: 12px;
+            margin: 16px 0;
         }
 
-        .next-training-preview .label {
+        .xp-label {
             font-size: 12px;
-            opacity: 0.7;
+            color: var(--text-secondary);
             margin-bottom: 4px;
         }
 
-        .next-training-preview .title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .next-training-preview .subtitle {
-            font-size: 13px;
-            opacity: 0.8;
+        .xp-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
-    <!-- Setup Modal -->
-    <div id="setup-modal" class="modal-overlay" style="display: none;">
-        <div class="modal" style="max-width: 360px;">
-            <div class="success-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">🎯</div>
-            <h3>设置初始水平</h3>
-            <p style="font-size: 13px; margin-bottom: 20px;">请输入你当前的各项技能水平（2.0-3.5），雷达图会根据训练进度动态更新</p>
-            
-            <div class="skill-inputs" style="margin-bottom: 24px;">
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <span style="font-size: 14px;">🎾 正手</span>
-                    <input type="number" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <span style="font-size: 14px;">🎯 反手</span>
-                    <input type="number" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <span style="font-size: 14px;">🚀 发球</span>
-                    <input type="number" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <span style="font-size: 14px;">⚡ 接发</span>
-                    <input type="number" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <span style="font-size: 14px;">🏃 截击</span>
-                    <input type="number" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
-                    <span style="font-size: 14px;">💪 步法</span>
-                    <input type="number" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
-                </div>
-            </div>
-            
-            <button class="modal-btn" onclick="saveSetup()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">开始训练 →</button>
-        </div>
-    </div>
-
     <!-- Home Page -->
     <div id="home-page" class="page active">
         <div class="header">
-            <h1>
-                <div class="tennis-ball"></div>
-                网球进阶教练
-            </h1>
-            <div class="level-badge">
-                <span>当前等级</span>
-                <span id="current-level" style="font-size: 20px; font-weight: 700; color: var(--accent);">2.5</span>
-                <div class="progress" style="width: 120px;">
-                    <div class="progress-bar" id="level-progress" style="width: 0%"></div>
+            <h1>网球进阶教练</h1>
+        </div>
+
+        <div class="level-section">
+            <div class="level-label">当前等级</div>
+            <div class="level-value" id="current-level">2.50</div>
+            <div class="level-target">目标: <span>3.50</span></div>
+        </div>
+
+        <div class="ios-progress">
+            <div class="ios-progress-bar" id="level-progress" style="width: 0%"></div>
+        </div>
+        <div class="progress-labels">
+            <span>2.0</span>
+            <span>3.5</span>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-sessions">0</div>
+                    <div class="stat-label">已完成</div>
                 </div>
-                <span style="font-size: 12px; color: var(--text-muted);">目标 3.5</span>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="number" id="total-sessions">0</div>
-                <div class="label">已完成训练</div>
-            </div>
-            <div class="stat-card">
-                <div class="number" id="current-streak">0</div>
-                <div class="label">连续打卡</div>
-            </div>
-            <div class="stat-card">
-                <div class="number" id="total-hours">0</div>
-                <div class="label">训练小时</div>
-            </div>
-        </div>
-
-        <div class="section-title">技能雷达</div>
-        <div style="text-align: center; font-size: 12px; color: var(--text-muted); margin: -10px 0 10px;">
-            刻度: 内圈2.5 → 中圈3.0 → 外圈3.5
-        </div>
-        <div class="skills-radar">
-            <div class="radar-container">
-                <svg class="radar-svg" viewBox="0 0 200 200">
-                    <!-- 2.5 基础圈 (绿色虚线) -->
-                    <polygon points="100,60 130,80 130,120 100,140 70,120 70,80" fill="none" stroke="rgba(74,222,128,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
-                    
-                    <!-- 3.0 中间圈 (白色虚线) -->
-                    <polygon points="100,40 150,70 150,130 100,160 50,130 50,70" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="5,5"/>
-                    
-                    <!-- 3.5 目标圈 (绿色实线) -->
-                    <polygon points="100,20 170,60 170,140 100,180 30,140 30,60" fill="none" stroke="rgba(74,222,128,0.5)" stroke-width="1.5"/>
-                    
-                    <!-- 轴线 -->
-                    <line x1="100" y1="100" x2="100" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <line x1="100" y1="100" x2="170" y2="60" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <line x1="100" y1="100" x2="170" y2="140" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <line x1="100" y1="100" x2="100" y2="180" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <line x1="100" y1="100" x2="30" y2="140" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <line x1="100" y1="100" x2="30" y2="60" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    
-                    <!-- 技能多边形 -->
-                    <polygon id="skill-polygon" points="100,100 100,100 100,100 100,100 100,100 100,100" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="2.5"/>
-                </svg>
-                <div class="skill-labels">
-                    <span class="skill-label" style="top: 8%; left: 50%">正手</span>
-                    <span class="skill-label" style="top: 30%; right: 5%">反手</span>
-                    <span class="skill-label" style="bottom: 30%; right: 5%">发球</span>
-                    <span class="skill-label" style="bottom: 8%; left: 50%">接发</span>
-                    <span class="skill-label" style="bottom: 30%; left: 5%">截击</span>
-                    <span class="skill-label" style="top: 30%; left: 5%">步法</span>
+                <div class="stat-card">
+                    <div class="stat-value" id="current-streak">0</div>
+                    <div class="stat-label">连续打卡</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-hours">0</div>
+                    <div class="stat-label">训练小时</div>
                 </div>
             </div>
         </div>
 
-        <div class="section-title">今日训练</div>
-        <div class="today-training" id="today-card">
-            <h3>第 <span id="week-num">1</span> 周 · 第 <span id="session-num">1</span> 次</h3>
-            <div class="title" id="today-title">正手基础强化</div>
-            <div class="subtitle" id="today-subtitle">稳定控球 · 身体发力</div>
-            <button class="start-btn" id="start-btn" onclick="startTodayTraining()">开始训练 →</button>
+        <div class="section-header">技能雷达</div>
+        <div class="radar-section">
+            <div class="radar-card">
+                <div class="radar-container">
+                    <svg class="radar-svg" viewBox="0 0 200 200">
+                        <!-- 三个刻度圈 -->
+                        <polygon points="100,90 105,95 105,105 100,110 95,105 95,95" fill="none" stroke="rgba(48,209,88,0.2)" stroke-width="0.5"/>
+                        <polygon points="100,75 118,85 118,115 100,125 82,115 82,85" fill="none" stroke="rgba(142,142,147,0.4)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                        <polygon points="100,60 130,77 130,123 100,140 70,123 70,77" fill="none" stroke="rgba(48,209,88,0.4)" stroke-width="1"/>
+                        
+                        <!-- 刻度标签 -->
+                        <text x="102" y="88" fill="rgba(48,209,88,0.6)" font-size="6">2.5</text>
+                        <text x="120" y="83" fill="rgba(142,142,147,0.8)" font-size="6">3.0</text>
+                        <text x="132" y="75" fill="rgba(48,209,88,0.8)" font-size="6">3.5</text>
+                        
+                        <!-- 轴线 -->
+                        <line x1="100" y1="100" x2="100" y2="60" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        <line x1="100" y1="100" x2="130" y2="77" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        <line x1="100" y1="100" x2="130" y2="123" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        <line x1="100" y1="100" x2="100" y2="140" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        <line x1="100" y1="100" x2="70" y2="123" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        <line x1="100" y1="100" x2="70" y2="77" stroke="rgba(142,142,147,0.2)" stroke-width="0.5"/>
+                        
+                        <!-- 技能标签 -->
+                        <text x="100" y="55" fill="var(--text-secondary)" font-size="9" text-anchor="middle">正手</text>
+                        <text x="138" y="73" fill="var(--text-secondary)" font-size="9" text-anchor="start">反手</text>
+                        <text x="138" y="130" fill="var(--text-secondary)" font-size="9" text-anchor="start">发球</text>
+                        <text x="100" y="148" fill="var(--text-secondary)" font-size="9" text-anchor="middle">接发</text>
+                        <text x="62" y="130" fill="var(--text-secondary)" font-size="9" text-anchor="end">截击</text>
+                        <text x="62" y="73" fill="var(--text-secondary)" font-size="9" text-anchor="end">步法</text>
+                        
+                        <!-- 技能多边形 -->
+                        <polygon id="skill-polygon" points="100,100 100,100 100,100 100,100 100,100 100,100" fill="rgba(48,209,88,0.25)" stroke="#30d158" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="section-title">训练模块</div>
-        <div class="module-grid">
-            <div class="module-card forehand" onclick="showModule('forehand')">
-                <div class="module-icon">🎾</div>
-                <h4>正手</h4>
-                <p>身体发力 · 稳定控球</p>
-                <div class="click-hint">点击查看 →</div>
+        <div class="section-header">今日训练</div>
+        <div class="today-section">
+            <div class="today-card" id="today-card">
+                <div class="today-header">第 <span id="week-num">1</span> 周 · 第 <span id="session-num">1</span> 次</div>
+                <div class="today-title" id="today-title">正手基础强化</div>
+                <div class="today-subtitle" id="today-subtitle">稳定控球 · 身体发力</div>
+                <button class="today-btn" id="start-btn" onclick="startTodayTraining()">开始训练</button>
             </div>
-            <div class="module-card backhand" onclick="showModule('backhand')">
-                <div class="module-icon">🎯</div>
-                <h4>反手</h4>
-                <p>重心调整 · 转胯发力</p>
-                <div class="click-hint">点击查看 →</div>
-            </div>
-            <div class="module-card serve" onclick="showModule('serve')">
-                <div class="module-icon">🚀</div>
-                <h4>发球</h4>
-                <p>抛球稳定 · 动作完整</p>
-                <div class="click-hint">点击查看 →</div>
-            </div>
-            <div class="module-card return" onclick="showModule('return')">
-                <div class="module-icon">⚡</div>
-                <h4>接发球</h4>
-                <p>垫步准备 · 向前送球</p>
-                <div class="click-hint">点击查看 →</div>
-            </div>
-            <div class="module-card volley" onclick="showModule('volley')">
-                <div class="module-icon">🏃</div>
-                <h4>截击</h4>
-                <p>手腕固定 · 迎球上网</p>
-                <div class="click-hint">点击查看 →</div>
-            </div>
-            <div class="module-card fitness" onclick="showModule('fitness')">
-                <div class="module-icon">💪</div>
-                <h4>体能</h4>
-                <p>步法训练 · 移动速度</p>
-                <div class="click-hint">点击查看 →</div>
+        </div>
+
+        <div class="section-header">训练模块</div>
+        <div class="modules-section">
+            <div class="modules-grid">
+                <div class="module-card forehand" onclick="showModule('forehand')">
+                    <div class="module-icon">🎾</div>
+                    <div class="module-name">正手</div>
+                    <div class="module-desc">身体发力</div>
+                </div>
+                <div class="module-card backhand" onclick="showModule('backhand')">
+                    <div class="module-icon">🎯</div>
+                    <div class="module-name">反手</div>
+                    <div class="module-desc">转胯发力</div>
+                </div>
+                <div class="module-card serve" onclick="showModule('serve')">
+                    <div class="module-icon">🚀</div>
+                    <div class="module-name">发球</div>
+                    <div class="module-desc">抛球稳定</div>
+                </div>
+                <div class="module-card return" onclick="showModule('return')">
+                    <div class="module-icon">⚡</div>
+                    <div class="module-name">接发</div>
+                    <div class="module-desc">向前送球</div>
+                </div>
+                <div class="module-card volley" onclick="showModule('volley')">
+                    <div class="module-icon">🏃</div>
+                    <div class="module-name">截击</div>
+                    <div class="module-desc">手腕固定</div>
+                </div>
+                <div class="module-card fitness" onclick="showModule('fitness')">
+                    <div class="module-icon">💪</div>
+                    <div class="module-name">步法</div>
+                    <div class="module-desc">移动速度</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Training Detail Page -->
+    <!-- Training Page -->
     <div id="training-page" class="page">
         <div class="training-header">
-            <button class="back-btn" onclick="goBack()">←</button>
-            <h2 id="training-title">正手基础强化</h2>
-            <p id="training-desc">本周重点：建立正确的击球节奏</p>
+            <button class="back-btn" onclick="goBack()">‹</button>
+            <div class="training-title" id="training-title">正手基础强化</div>
+            <div class="training-subtitle" id="training-desc">稳定控球 · 身体发力</div>
         </div>
-        <div class="drill-list" id="drill-list">
-        </div>
-        <button class="complete-training-btn" id="complete-btn" onclick="completeTraining()" disabled>
-            请先完成所有练习
-        </button>
+        <div class="drill-list" id="drill-list"></div>
+        <button class="complete-btn" id="complete-btn" onclick="completeTraining()" disabled>完成训练</button>
     </div>
 
-    <!-- Progress Page -->
-    <div id="progress-page" class="page">
-        <div class="header">
-            <h1>
-                <div class="tennis-ball"></div>
-                训练历程
-            </h1>
+    <!-- Setup Modal -->
+    <div class="modal-overlay" id="setup-modal">
+        <div class="modal">
+            <div class="modal-title">设置初始水平</div>
+            <div class="skill-input">
+                <span class="skill-name">🎾 正手</span>
+                <input type="number" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <div class="skill-input">
+                <span class="skill-name">🎯 反手</span>
+                <input type="number" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <div class="skill-input">
+                <span class="skill-name">🚀 发球</span>
+                <input type="number" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <div class="skill-input">
+                <span class="skill-name">⚡ 接发</span>
+                <input type="number" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <div class="skill-input">
+                <span class="skill-name">🏃 截击</span>
+                <input type="number" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <div class="skill-input">
+                <span class="skill-name">💪 步法</span>
+                <input type="number" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1">
+            </div>
+            <button class="modal-btn" onclick="saveSetup()">开始训练</button>
         </div>
-        <div class="timeline" id="timeline">
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay success-modal" id="success-modal">
+        <div class="modal">
+            <div class="success-icon">🎉</div>
+            <div class="modal-title">训练完成！</div>
+            <div class="xp-earned">
+                <div class="xp-label">获得经验</div>
+                <div class="xp-value">+50 XP</div>
+            </div>
+            <button class="modal-btn" onclick="closeModal()">继续</button>
         </div>
     </div>
 
     <!-- Tab Bar -->
     <div class="tab-bar">
-        <button class="tab-btn active" id="tab-home" onclick="switchTab('home')">
-            <div class="icon">🏠</div>
+        <button class="tab-btn active" onclick="switchTab('home')">
+            <span class="tab-icon">🏠</span>
             <span>首页</span>
         </button>
-        <button class="tab-btn" id="tab-progress" onclick="switchTab('progress')">
-            <div class="icon">📊</div>
+        <button class="tab-btn" onclick="switchTab('progress')">
+            <span class="tab-icon">📊</span>
             <span>进度</span>
         </button>
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="success-modal" onclick="if(event.target===this)closeModal()">
-        <div class="modal">
-            <div class="success-icon">🎉</div>
-            <h3>训练完成！</h3>
-            <p>太棒了！坚持训练是提升的关键</p>
-            <div class="xp-earned">
-                <div class="label">获得经验值</div>
-                <div class="value" id="xp-value">+50 XP</div>
-            </div>
-            <div class="next-training-preview" id="next-preview">
-                <div class="label">下一次训练</div>
-                <div class="title" id="next-title">反手基础训练</div>
-                <div class="subtitle" id="next-subtitle">第 1 周 · 第 2 次</div>
-            </div>
-            <button class="modal-btn" onclick="closeModal()" style="margin-top: 20px;">继续 →</button>
-        </div>
-    </div>
-
     <script>
-        // Training Program Data (Weeks 1-8 for demo, can be extended)
+        // Training Data
         const trainingProgram = [
-            // Phase 1: Foundation (Weeks 1-4)
             { week: 1, session: 1, module: 'forehand', title: '正手基础强化', subtitle: '稳定控球 · 身体发力', drills: [
-                { name: '小场对拉', duration: '15分钟', target: '连续20拍不失误', desc: '在小场（发球线内）与搭档对拉，重点是控制而非力量。感受身体转髋带动手臂击球。' },
-                { name: '对墙击球', duration: '10分钟', target: '连续15个回合', desc: '找一面平整的墙，距墙3-5米击球。练习击球节奏和球感。' },
-                { name: '空挥练习', duration: '5分钟', target: '50次标准动作', desc: '无球挥拍，专注于转体→击球→随挥的完整动作链。' }
+                { name: '小场对拉', duration: '15分钟', target: '连续20拍', desc: '在小场与搭档对拉，重点是控制而非力量。' },
+                { name: '对墙击球', duration: '10分钟', target: '连续15个', desc: '距墙3-5米击球，练习节奏和球感。' },
+                { name: '空挥练习', duration: '5分钟', target: '50次', desc: '无球挥拍，专注完整动作链。' }
             ]},
             { week: 1, session: 2, module: 'backhand', title: '反手基础训练', subtitle: '重心调整 · 转胯发力', drills: [
-                { name: '手抛球练习', duration: '15分钟', target: '成功率80%', desc: '搭档手抛球，练习找到最佳击球点。注意降低重心，用前脚找球。' },
-                { name: '对墙反手', duration: '10分钟', target: '连续10个回合', desc: '只用反手对墙击球，体会双反击球时左手的带动作用。' },
-                { name: '转体练习', duration: '5分钟', target: '30次', desc: '徒手练习转体动作，感受腰部发力带动手臂。' }
+                { name: '手抛球练习', duration: '15分钟', target: '成功率80%', desc: '搭档手抛球，找最佳击球点。' },
+                { name: '对墙反手', duration: '10分钟', target: '连续10个', desc: '只用反手对墙，体会左手带动。' },
+                { name: '转体练习', duration: '5分钟', target: '30次', desc: '徒手转体，感受腰部发力。' }
             ]},
             { week: 1, session: 3, module: 'serve', title: '发球动作定型', subtitle: '抛球稳定 · 动作完整', drills: [
-                { name: '抛球练习', duration: '10分钟', target: '20个好抛球', desc: '仅练习抛球，球应垂直向上，落在头顶前方。这是发球稳定的基础。' },
-                { name: '发球线发球', duration: '15分钟', target: '10个好球', desc: '站在发球线，用6成力量发球。重点是动作的完整性，不要追求速度。' },
-                { name: '发球动作挥拍', duration: '5分钟', target: '30次', desc: '无球完整发球动作练习，固定手腕，像向前拍球的感觉。' }
-            ]},
-
-            // Week 2
-            { week: 2, session: 1, module: 'return', title: '接发球入门', subtitle: '垫步准备 · 向前送球', drills: [
-                { name: '分腿垫步练习', duration: '5分钟', target: '形成肌肉记忆', desc: '对方击球瞬间做分腿垫步，这是接发的关键准备动作。' },
-                { name: '慢速接发', duration: '15分钟', target: '回球率70%', desc: '搭档发慢速球，练习接发。目标是回球过网，不求力量。' },
-                { name: '向前顶球练习', duration: '10分钟', target: '20个深球', desc: '刻意向前送球，让回球更深。避免只向上挑球。' }
-            ]},
-            { week: 2, session: 2, module: 'volley', title: '网前截击基础', subtitle: '手腕固定 · 重心控制', drills: [
-                { name: '手抓球练习', duration: '10分钟', target: '20次', desc: '搭档手抛球，用截击动作手抓球。体会拍面对准来球的感觉。' },
-                { name: '拍颈截击', duration: '10分钟', target: '15个回合', desc: '手持拍颈进行截击，限制引拍幅度，培养简洁动作。' },
-                { name: '靠墙截击', duration: '10分钟', target: '成功率70%', desc: '背靠墙练习，强制限制引拍幅度，改善引拍过大问题。' }
-            ]},
-            { week: 2, session: 3, module: 'forehand', title: '正手稳定性提升', subtitle: '控球为王 · 减少失误', drills: [
-                { name: '底线对拉', duration: '20分钟', target: '连续15拍', desc: '退到底线对拉，用7成力量，重点是稳定性和深度。' },
-                { name: '落点控制', duration: '10分钟', target: '成功率60%', desc: '指定落点区域，练习控制正手落点。' },
-                { name: '移动中正手', duration: '10分钟', target: '回球率65%', desc: '搭档向左右喂球，练习移动中正手击球。' }
-            ]},
-
-            // Week 3
-            { week: 3, session: 1, module: 'backhand', title: '反手稳定性', subtitle: '双反节奏 · 上旋控制', drills: [
-                { name: '小场反手对拉', duration: '15分钟', target: '连续15拍', desc: '小场只打反手，建立反手击球的信心。' },
-                { name: '反手上旋练习', duration: '15分钟', target: '有明显上旋', desc: '练习由下向上击球，制造上旋。注意不要翻拍面。' },
-                { name: '反手深球训练', duration: '10分钟', target: '10个深球', desc: '目标是打深区，体会向前伸展的感觉。' }
-            ]},
-            { week: 3, session: 2, module: 'serve', title: '发球进阶', subtitle: '增加速度 · 控制落点', drills: [
-                { name: '底线发球', duration: '15分钟', target: '成功率50%', desc: '退到底线发球，逐步增加力量到8成。' },
-                { name: '落点发球', duration: '15分钟', target: '内角/外角各5个', desc: '练习发内角和外角，建立落点控制。' },
-                { name: '二发练习', duration: '10分钟', target: '成功率80%', desc: '练习高弧度二发，确保不双误。' }
-            ]},
-            { week: 3, session: 3, module: 'fitness', title: '步法专项', subtitle: '快速移动 · 到位击球', drills: [
-                { name: '左右滑步', duration: '10分钟', target: '覆盖整个底线', desc: '底线左右快速滑步，保持低重心。' },
-                { name: '前后移动', duration: '10分钟', target: '20组', desc: '网前↔底线的快速移动。' },
-                { name: '米字跑', duration: '10分钟', target: '5组', desc: '按米字方向跑动，模拟真实比赛移动。' }
-            ]},
-
-            // Week 4
-            { week: 4, session: 1, module: 'return', title: '接发球提升', subtitle: '应对快球 · 控制回球', drills: [
-                { name: '中速接发', duration: '15分钟', target: '回球率60%', desc: '搭档发中速球，练习减少引拍，直接向前顶。' },
-                { name: '接发分点', duration: '15分钟', target: '左右各5个', desc: '有意识的将接发球回到不同区域。' },
-                { name: '二发抢攻', duration: '10分钟', target: '3个制胜分', desc: '对方二发时，尝试主动进攻。' }
-            ]},
-            { week: 4, session: 2, module: 'volley', title: '截击进阶', subtitle: '迎球上网 · 截击得分', drills: [
-                { name: '正手截击', duration: '10分钟', target: '成功率75%', desc: '正手位截击练习，异侧脚上步。' },
-                { name: '反手截击', duration: '10分钟', target: '成功率75%', desc: '反手位截击练习，同侧脚上步。' },
-                { name: '截击+高压', duration: '15分钟', target: '完成5组', desc: '截击后迅速准备高压球。' }
-            ]},
-            { week: 4, session: 3, module: 'match', title: '实战应用', subtitle: '综合技术 · 比赛模拟', drills: [
-                { name: '发球+第一拍', duration: '15分钟', target: '建立优势5次', desc: '发球后准备打第一拍，建立进攻态势。' },
-                { name: '多拍对攻', duration: '20分钟', target: '完成10个长回合', desc: '与搭档进行多拍对攻，比谁失误少。' },
-                { name: '记分赛', duration: '15分钟', target: '打满4局', desc: '正式记分比赛，应用所学技术。' }
-            ]},
-
-            // Weeks 5-8: Intermediate
-            { week: 5, session: 1, module: 'forehand', title: '正手进攻', subtitle: '增加旋转 · 控制深度', drills: [
-                { name: '正手上旋对拉', duration: '20分钟', target: '连续20拍', desc: '强调上旋，增加过网高度，减少失误。' },
-                { name: '正手变线', duration: '15分钟', target: '成功率60%', desc: '练习正手斜线和直线的变化。' },
-                { name: '正手进攻', duration: '10分钟', target: '5个制胜分', desc: '机会球时敢于进攻，追求角度和速度。' }
-            ]},
-            { week: 5, session: 2, module: 'backhand', title: '反手进攻', subtitle: '双反威力 · 控制方向', drills: [
-                { name: '反手对拉强化', duration: '20分钟', target: '连续20拍', desc: '底线上旋对拉，反手不再只是防守。' },
-                { name: '反手直线', duration: '15分钟', target: '5个好球', desc: '练习反手直线进攻，出其不意。' },
-                { name: '反手上旋高球', duration: '10分钟', target: '成功率70%', desc: '防守时高弧度上旋球，争取时间。' }
-            ]},
-            { week: 5, session: 3, module: 'serve', title: '发球武器化', subtitle: '一发威力 · 二发稳定', drills: [
-                { name: '一发力练习', duration: '15分钟', target: '成功率40%', desc: '全力一发，追求速度和角度。' },
-                { name: '二发上旋', duration: '15分钟', target: '成功率85%', desc: '高弹跳二发，让对方难以下手。' },
-                { name: '发球套路', duration: '10分钟', target: '执行3套', desc: '一发外角+正手进攻等战术套路。' }
-            ]},
-
-            { week: 6, session: 1, module: 'return', title: '接发球战术', subtitle: '预判线路 · 主动接发', drills: [
-                { name: '预判练习', duration: '10分钟', target: '预判准确率50%', desc: '观察抛球和拍面预判发球方向。' },
-                { name: '抢二发', duration: '15分钟', target: '5个主动回球', desc: '对方二发时向前站位，主动进攻。' },
-                { name: '接发分点', duration: '15分钟', target: '控制落点', desc: '有意识的将接发球回到对方弱侧。' }
-            ]},
-            { week: 6, session: 2, module: 'volley', title: '网前统治力', subtitle: '主动上网 · 截击制胜', drills: [
-                { name: '发球上网', duration: '15分钟', target: '截击成功率70%', desc: '发球后主动上网，练习第一截击。' },
-                { name: '截击角度', duration: '15分钟', target: '3个角度截击', desc: '练习大角度截击，让对手无法回球。' },
-                { name: '截击高压', duration: '10分钟', target: '完成高压', desc: '截击后准备高压，结束这一分。' }
-            ]},
-            { week: 6, session: 3, module: 'fitness', title: '爆发力训练', subtitle: '启动速度 · 变向能力', drills: [
-                { name: '折返跑', duration: '10分钟', target: '10组', desc: '底线到发球线的快速折返。' },
-                { name: '侧向移动', duration: '10分钟', target: '覆盖全场', desc: '快速侧向滑步，保持击球姿态。' },
-                { name: '反应训练', duration: '10分钟', target: '快速启动', desc: '听口令或看球启动，练习反应速度。' }
-            ]},
-
-            { week: 7, session: 1, module: 'match', title: '战术演练', subtitle: '控制节奏 · 调动对手', drills: [
-                { name: '斜线对拉', duration: '15分钟', target: '20拍', desc: '正手斜线对拉，寻找机会变线。' },
-                { name: '调动对手', duration: '15分钟', target: '成功5次', desc: '大角度调动对手，创造空档。' },
-                { name: '节奏变化', duration: '10分钟', target: '变化3次', desc: '快慢球结合，打乱对手节奏。' }
-            ]},
-            { week: 7, session: 2, module: 'match', title: '相持能力', subtitle: '多拍稳定 · 减少失误', drills: [
-                { name: '底线马拉松', duration: '20分钟', target: '30拍回合', desc: '只打斜线，看谁先失误，练习耐心。' },
-                { name: '防守转攻', duration: '15分钟', target: '成功3次', desc: '被动防守时寻找机会转为主动。' },
-                { name: '关键分', duration: '10分钟', target: '赢3个', desc: '模拟deuce等关键分，练习心理。' }
-            ]},
-            { week: 7, session: 3, module: 'match', title: '比赛实战', subtitle: '应用所学 · 检验成果', drills: [
-                { name: '正式单打', duration: '40分钟', target: '打满1盘', desc: '正式比赛，应用所有技术。' },
-                { name: '赛后总结', duration: '5分钟', target: '记录3点', desc: '记录今天表现好的和需要改进的。' }
-            ]},
-
-            { week: 8, session: 1, module: 'forehand', title: '正手大师课', subtitle: '各种来球 · 从容应对', drills: [
-                { name: '正手全场', duration: '20分钟', target: '控制全场', desc: '不同高度、速度的来球都用正手处理。' },
-                { name: '正手制胜分', duration: '15分钟', target: '5个制胜', desc: '机会球时打出clean winner。' },
-                { name: '正手防守', duration: '10分钟', target: '防住5个', desc: '被动时的正手高球防守。' }
-            ]},
-            { week: 8, session: 2, module: 'backhand', title: '反手大师课', subtitle: '双反利器 · 不再弱点', drills: [
-                { name: '反手全场', duration: '20分钟', target: '全场控制', desc: '各种来球的双反处理，不逃避。' },
-                { name: '反手制胜', duration: '15分钟', target: '3个制胜', desc: '反手也能打出制胜分。' },
-                { name: '反手切削', duration: '10分钟', target: '低球处理', desc: '低球时的反手切削过渡。' }
-            ]},
-            { week: 8, session: 3, module: 'match', title: '技术整合', subtitle: '左右开弓 · 技术全面', drills: [
-                { name: '全场对拉', duration: '20分钟', target: '30拍', desc: '正反手自由切换的长回合。' },
-                { name: '技术统计', duration: '15分钟', target: '统计失误', desc: '记录正反手失误数，找出弱点。' },
-                { name: '改进练习', duration: '10分钟', target: '针对性', desc: '针对弱点多球练习。' }
+                { name: '抛球练习', duration: '10分钟', target: '20个好抛球', desc: '球垂直向上，落头顶前方。' },
+                { name: '发球线发球', duration: '15分钟', target: '10个好球', desc: '发球线6成力量，重动作完整性。' },
+                { name: '发球挥拍', duration: '5分钟', target: '30次', desc: '无球完整发球动作。' }
             ]}
         ];
 
@@ -1164,69 +817,42 @@
             currentWeek: 1,
             currentSession: 1,
             completedSessions: [],
-            skillLevels: null, // Will be set in setup
+            skillLevels: null,
             streak: 0,
             lastTrainingDate: null,
-            totalHours: 0,
-            firstTime: true
-        };
-
-        // Default skills if not set
-        const defaultSkills = {
-            forehand: 2.5,
-            backhand: 2.5,
-            serve: 2.5,
-            return: 2.5,
-            volley: 2.5,
-            fitness: 2.5
+            totalHours: 0
         };
 
         let currentDrillsCompleted = [];
 
-        // Save state
         function saveState() {
             localStorage.setItem('tennisTrainerState', JSON.stringify(state));
         }
 
-        // Get current training
         function getCurrentTraining() {
             return trainingProgram.find(t => t.week === state.currentWeek && t.session === state.currentSession);
         }
 
-        // Get next training
-        function getNextTraining() {
-            const currentIndex = trainingProgram.findIndex(t => t.week === state.currentWeek && t.session === state.currentSession);
-            if (currentIndex < trainingProgram.length - 1) {
-                return trainingProgram[currentIndex + 1];
-            }
-            return null;
-        }
-
-        // Check if current training is already completed today
-        function isCurrentTrainingCompleted() {
-            const training = getCurrentTraining();
-            if (!training) return false;
-            return state.completedSessions.some(s => s.week === training.week && s.session === training.session);
-        }
-
-        // Calculate overall level
         function calculateOverallLevel() {
+            if (!state.skillLevels) return 2.5;
             const levels = Object.values(state.skillLevels);
             const avg = levels.reduce((a, b) => a + b, 0) / levels.length;
-            return avg.toFixed(1);
+            return avg.toFixed(2);
         }
 
-        // Update radar chart
         function updateRadarChart() {
+            if (!state.skillLevels) return;
+            
             const svg = document.getElementById('skill-polygon');
             const center = 100;
-            const maxRadius = 80;
             const skills = ['forehand', 'backhand', 'serve', 'return', 'volley', 'fitness'];
+            
+            // 半径计算: 2.0-3.5 映射到 40-80像素
+            const radiusFor = (level) => 40 + ((level - 2.0) / 1.5) * 40;
             
             const points = skills.map((skill, i) => {
                 const angle = (Math.PI * 2 * i / 6) - Math.PI / 2;
-                const level = (state.skillLevels[skill] - 2.0) / 2.0;
-                const radius = level * maxRadius;
+                const radius = radiusFor(state.skillLevels[skill]);
                 const x = center + radius * Math.cos(angle);
                 const y = center + radius * Math.sin(angle);
                 return `${x},${y}`;
@@ -1235,144 +861,111 @@
             svg.setAttribute('points', points.join(' '));
         }
 
-        // Render home page
         function renderHome() {
-            const training = getCurrentTraining();
             document.getElementById('current-level').textContent = calculateOverallLevel();
-            document.getElementById('level-progress').style.width = ((calculateOverallLevel() - 2.5) / 1.0 * 100) + '%';
+            document.getElementById('level-progress').style.width = ((calculateOverallLevel() - 2.0) / 1.5 * 100) + '%';
             document.getElementById('total-sessions').textContent = state.completedSessions.length;
             document.getElementById('current-streak').textContent = state.streak;
             document.getElementById('total-hours').textContent = Math.floor(state.totalHours);
             
-            const todayCard = document.getElementById('today-card');
-            const startBtn = document.getElementById('start-btn');
-            
+            const training = getCurrentTraining();
             if (training) {
                 document.getElementById('week-num').textContent = training.week;
                 document.getElementById('session-num').textContent = training.session;
                 document.getElementById('today-title').textContent = training.title;
                 document.getElementById('today-subtitle').textContent = training.subtitle;
-                
-                const isCompleted = isCurrentTrainingCompleted();
-                
-                if (isCompleted) {
-                    todayCard.classList.add('completed');
-                    const nextTraining = getNextTraining();
-                    if (nextTraining) {
-                        startBtn.textContent = '查看下一次训练 →';
-                        startBtn.onclick = () => {
-                            state.currentWeek = nextTraining.week;
-                            state.currentSession = nextTraining.session;
-                            saveState();
-                            renderHome();
-                        };
-                    } else {
-                        startBtn.textContent = '恭喜完成所有训练！🎉';
-                        startBtn.onclick = () => {};
-                    }
-                } else {
-                    todayCard.classList.remove('completed');
-                    startBtn.textContent = '开始训练 →';
-                    startBtn.onclick = startTodayTraining;
-                }
-            } else {
-                document.getElementById('today-title').textContent = '训练计划已完成';
-                document.getElementById('today-subtitle').textContent = '恭喜达到3.5水平！';
-                startBtn.textContent = '重新开始 →';
-                startBtn.onclick = () => {
-                    if (confirm('确定要重置所有进度吗？')) {
-                        localStorage.removeItem('tennisTrainerState');
-                        location.reload();
-                    }
-                };
             }
             
             updateRadarChart();
         }
 
-        // Render training page
-        function renderTraining() {
+        function showSetup() {
+            document.getElementById('setup-modal').classList.add('active');
+        }
+
+        function saveSetup() {
+            const clamp = (v) => Math.max(2.0, Math.min(3.5, parseFloat(v) || 2.5));
+            
+            state.skillLevels = {
+                forehand: clamp(document.getElementById('setup-forehand').value),
+                backhand: clamp(document.getElementById('setup-backhand').value),
+                serve: clamp(document.getElementById('setup-serve').value),
+                return: clamp(document.getElementById('setup-return').value),
+                volley: clamp(document.getElementById('setup-volley').value),
+                fitness: clamp(document.getElementById('setup-fitness').value)
+            };
+            
+            saveState();
+            document.getElementById('setup-modal').classList.remove('active');
+            renderHome();
+        }
+
+        function startTodayTraining() {
             const training = getCurrentTraining();
             if (!training) return;
+            
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('training-page').classList.add('active');
             
             document.getElementById('training-title').textContent = training.title;
             document.getElementById('training-desc').textContent = training.subtitle;
             
-            const drillList = document.getElementById('drill-list');
-            drillList.innerHTML = '';
-            
+            const list = document.getElementById('drill-list');
+            list.innerHTML = '';
             currentDrillsCompleted = new Array(training.drills.length).fill(false);
             
-            training.drills.forEach((drill, index) => {
-                const drillCard = document.createElement('div');
-                drillCard.className = 'drill-card';
-                drillCard.id = `drill-${index}`;
-                drillCard.innerHTML = `
+            training.drills.forEach((drill, i) => {
+                const card = document.createElement('div');
+                card.className = 'drill-card';
+                card.id = `drill-${i}`;
+                card.innerHTML = `
                     <div class="drill-header">
-                        <div class="drill-number">${index + 1}</div>
-                        <div class="drill-title">
-                            <h4>${drill.name}</h4>
-                            <span>⏱ ${drill.duration}</span>
-                        </div>
-                        <div class="target-badge">${drill.target}</div>
+                        <div class="drill-number">${i + 1}</div>
+                        <div class="drill-title">${drill.name}</div>
+                        <div class="drill-time">${drill.duration}</div>
                     </div>
                     <div class="drill-desc">${drill.desc}</div>
-                    <div class="drill-check" onclick="toggleDrill(${index})" id="drill-check-${index}">
-                        <div class="checkbox"></div>
-                        <span>点击确认完成此练习</span>
+                    <div class="drill-check" onclick="toggleDrill(${i})">
+                        <div class="check-circle"></div>
+                        <span>完成此练习</span>
                     </div>
                 `;
-                drillList.appendChild(drillCard);
+                list.appendChild(card);
             });
             
-            updateCompleteButton();
+            updateCompleteBtn();
         }
 
-        // Toggle drill completion
         function toggleDrill(index) {
             currentDrillsCompleted[index] = !currentDrillsCompleted[index];
             
-            const drillCard = document.getElementById(`drill-${index}`);
-            const drillCheck = document.getElementById(`drill-check-${index}`);
+            const card = document.getElementById(`drill-${index}`);
+            const check = card.querySelector('.drill-check');
             
             if (currentDrillsCompleted[index]) {
-                drillCard.classList.add('completed');
-                drillCheck.classList.add('completed');
-                drillCheck.querySelector('span').textContent = '已完成 ✓';
+                card.classList.add('completed');
+                check.classList.add('completed');
+                check.querySelector('.check-circle').innerHTML = '✓';
             } else {
-                drillCard.classList.remove('completed');
-                drillCheck.classList.remove('completed');
-                drillCheck.querySelector('span').textContent = '点击确认完成此练习';
+                card.classList.remove('completed');
+                check.classList.remove('completed');
+                check.querySelector('.check-circle').innerHTML = '';
             }
             
-            updateCompleteButton();
+            updateCompleteBtn();
         }
 
-        // Update complete button state
-        function updateCompleteButton() {
-            const allCompleted = currentDrillsCompleted.every(v => v);
+        function updateCompleteBtn() {
             const btn = document.getElementById('complete-btn');
-            btn.disabled = !allCompleted;
-            btn.textContent = allCompleted ? '完成训练打卡 ✓' : `请先完成所有练习 (${currentDrillsCompleted.filter(v=>v).length}/${currentDrillsCompleted.length})`;
+            const allDone = currentDrillsCompleted.every(v => v);
+            btn.disabled = !allDone;
+            btn.textContent = allDone ? '完成训练 ✓' : `完成 ${currentDrillsCompleted.filter(v=>v).length}/${currentDrillsCompleted.length}`;
         }
 
-        // Complete training
         function completeTraining() {
             const training = getCurrentTraining();
             if (!training) return;
             
-            // Check if already completed
-            const alreadyCompleted = state.completedSessions.some(s => 
-                s.week === training.week && s.session === training.session
-            );
-            
-            if (alreadyCompleted) {
-                alert('本次训练已经打卡过了！');
-                goBack();
-                return;
-            }
-            
-            // Add to completed
             state.completedSessions.push({
                 week: training.week,
                 session: training.session,
@@ -1380,187 +973,72 @@
                 date: new Date().toISOString()
             });
             
-            // Update skill level
-            const skillIncrease = 0.03;
-            state.skillLevels[training.module] = Math.min(3.5, state.skillLevels[training.module] + skillIncrease);
+            // 提升技能
+            if (state.skillLevels) {
+                state.skillLevels[training.module] = Math.min(3.5, state.skillLevels[training.module] + 0.03);
+            }
             
-            // Update streak
+            // 连续打卡
             const today = new Date().toDateString();
+            const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
             const lastDate = state.lastTrainingDate ? new Date(state.lastTrainingDate).toDateString() : null;
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
             
-            if (lastDate === today) {
-                // Already trained today, don't increment streak
-            } else if (lastDate === yesterday.toDateString()) {
+            if (lastDate === yesterday.toDateString()) {
                 state.streak++;
-            } else {
+            } else if (lastDate !== today) {
                 state.streak = 1;
             }
             
             state.lastTrainingDate = new Date().toISOString();
             state.totalHours += 0.75;
             
-            // Get next training for preview
-            const nextTraining = getNextTraining();
-            
-            // Advance to next session
-            if (nextTraining) {
-                state.currentWeek = nextTraining.week;
-                state.currentSession = nextTraining.session;
+            // 推进到下一次
+            const currentIndex = trainingProgram.findIndex(t => t.week === state.currentWeek && t.session === state.currentSession);
+            if (currentIndex < trainingProgram.length - 1) {
+                const next = trainingProgram[currentIndex + 1];
+                state.currentWeek = next.week;
+                state.currentSession = next.session;
             }
             
             saveState();
             
-            // Show next training in modal
-            if (nextTraining) {
-                document.getElementById('next-title').textContent = nextTraining.title;
-                document.getElementById('next-subtitle').textContent = `第 ${nextTraining.week} 周 · 第 ${nextTraining.session} 次 · ${nextTraining.subtitle}`;
-            } else {
-                document.getElementById('next-preview').style.display = 'none';
-            }
+            // 震动
+            if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
             
-            // Show success modal
             document.getElementById('success-modal').classList.add('active');
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('success-modal').classList.remove('active');
             goBack();
             renderHome();
         }
 
-        // Start today's training
-        function startTodayTraining() {
-            document.getElementById('home-page').classList.remove('active');
-            document.getElementById('training-page').classList.add('active');
-            renderTraining();
-        }
-
-        // Show module
-        function showModule(module) {
-            // Just start today's training for now
-            startTodayTraining();
-        }
-
-        // Go back
         function goBack() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('home-page').classList.add('active');
-            renderHome();
         }
 
-        // Switch tab
+        function showModule(module) {
+            startTodayTraining();
+        }
+
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            if (tab === 'home') {
-                document.getElementById('tab-home').classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById('home-page').classList.add('active');
-                renderHome();
-            } else if (tab === 'progress') {
-                document.getElementById('tab-progress').classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById('progress-page').classList.add('active');
-                renderProgress();
-            }
-        }
-
-        // Render progress page
-        function renderProgress() {
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
-            
-            const weeks = [...new Set(trainingProgram.map(t => t.week))];
-            
-            weeks.forEach(week => {
-                const weekTrainings = trainingProgram.filter(t => t.week === week);
-                const completedCount = weekTrainings.filter(t => 
-                    state.completedSessions.some(s => s.week === t.week && s.session === t.session)
-                ).length;
-                
-                const isCompleted = completedCount === weekTrainings.length;
-                const isCurrent = week === state.currentWeek;
-                
-                const item = document.createElement('div');
-                item.className = `timeline-item ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}`;
-                item.innerHTML = `
-                    <div class="timeline-dot">${isCompleted ? '✓' : week}</div>
-                    <div class="timeline-content">
-                        <h4>第 ${week} 周</h4>
-                        <p>${completedCount}/${weekTrainings.length} 次训练 · ${weekTrainings[0].title.split('·')[0]}</p>
-                    </div>
-                `;
-                timeline.appendChild(item);
-            });
-        }
-
-        // Show setup modal
-        function showSetup() {
-            document.getElementById('setup-modal').style.display = 'flex';
-            document.getElementById('setup-modal').style.zIndex = '9999';
-            
-            // 预填充现有值
-            if (state.skillLevels) {
-                document.getElementById('setup-forehand').value = state.skillLevels.forehand;
-                document.getElementById('setup-backhand').value = state.skillLevels.backhand;
-                document.getElementById('setup-serve').value = state.skillLevels.serve;
-                document.getElementById('setup-return').value = state.skillLevels.return;
-                document.getElementById('setup-volley').value = state.skillLevels.volley;
-                document.getElementById('setup-fitness').value = state.skillLevels.fitness;
-            }
-        }
-
-        // Force show setup on load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                showSetup();
-            }, 500);
-        });
-
-        // Save setup
-        function saveSetup() {
-            const forehand = parseFloat(document.getElementById('setup-forehand').value) || 2.5;
-            const backhand = parseFloat(document.getElementById('setup-backhand').value) || 2.5;
-            const serve = parseFloat(document.getElementById('setup-serve').value) || 2.5;
-            const return_ = parseFloat(document.getElementById('setup-return').value) || 2.5;
-            const volley = parseFloat(document.getElementById('setup-volley').value) || 2.5;
-            const fitness = parseFloat(document.getElementById('setup-fitness').value) || 2.5;
-            
-            const clamp = (v) => Math.max(2.0, Math.min(3.5, v));
-            
-            state.skillLevels = {
-                forehand: clamp(forehand),
-                backhand: clamp(backhand),
-                serve: clamp(serve),
-                return: clamp(return_),
-                volley: clamp(volley),
-                fitness: clamp(fitness)
-            };
-            state.firstTime = false;
-            saveState();
-            
-            document.getElementById('setup-modal').style.display = 'none';
-            renderHome();
+            event.currentTarget.classList.add('active');
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            renderHome();
-            
-            // Register Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW registered'))
-                    .catch(err => console.log('SW error', err));
+            if (!state.skillLevels) {
+                showSetup();
+            } else {
+                renderHome();
             }
             
-            // 强制显示设置弹窗（调试模式）
-            setTimeout(() => {
-                showSetup();
-            }, 800);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            }
         });
     </script>
 </body>
