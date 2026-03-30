@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>工作进度追踪器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .setup-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 12px;
+            color: #f8fafc;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+        }
+        
+        .mode-select {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mode-btn.active {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: #4ade80;
+            color: #4ade80;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border: none;
+            border-radius: 12px;
+            color: #0f172a;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .start-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .progress-panel {
+            display: none;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        
+        .task-name {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #f8fafc;
+        }
+        
+        .progress-ring {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+        }
+        
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 12;
+        }
+        
+        .progress-ring .bg {
+            stroke: rgba(74, 222, 128, 0.1);
+        }
+        
+        .progress-ring .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+        
+        .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 700;
+            color: #4ade80;
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .time-box {
+            text-align: center;
+        }
+        
+        .time-box .label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        
+        .time-box .value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+        
+        .status {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pause-btn {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .done-btn {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .cancel-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .complete-panel {
+            display: none;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid #4ade80;
+            animation: completePulse 0.5s ease;
+        }
+        
+        @keyframes completePulse {
+            0% { transform: scale(0.9); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .complete-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .complete-title {
+            font-size: 28px;
+            color: #4ade80;
+            margin-bottom: 10px;
+        }
+        
+        .complete-msg {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+        
+        .new-task-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border: none;
+            border-radius: 12px;
+            color: #0f172a;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <svg width="0" height="0">
+        <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4ade80"/>
+                <stop offset="100%" style="stop-color:#22c55e"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="container">
+        <h1>📊 工作进度追踪器</h1>
+        
+        <div class="setup-panel" id="setupPanel">
+            <div class="input-group">
+                <label>任务名称</label>
+                <input type="text" id="taskName" placeholder="例如：写报告、整理资料...">
+            </div>
+            
+            <div class="mode-select">
+                <button class="mode-btn active" onclick="setMode('time')">⏱ 计时模式</button>
+                <button class="mode-btn" onclick="setMode('count')">🔢 计数模式</button>
+            </div>
+            
+            <div class="input-group" id="timeInput">
+                <label>预计用时（分钟）</label>
+                <input type="number" id="totalMinutes" placeholder="30" min="1" value="30">
+            </div>
+            
+            <div class="input-group hidden" id="countInput">
+                <label>总步骤数</label>
+                <input type="number" id="totalSteps" placeholder="10" min="1" value="10">
+            </div>
+            
+            <button class="start-btn" onclick="startTask()">开始任务 →</button>
+        </div>
+        
+        <div class="progress-panel" id="progressPanel">
+            <div class="task-name" id="displayTaskName">任务名称</div>
+            
+            <div class="progress-ring">
+                <svg width="200" height="200">
+                    <circle class="bg" cx="100" cy="100" r="88"></circle>
+                    <circle class="progress" cx="100" cy="100" r="88" 
+                            stroke-dasharray="553" stroke-dashoffset="553" id="progressCircle"></circle>
+                </svg>
+                <div class="percentage" id="percentage">0%</div>
+            </div>
+            
+            <div class="time-info">
+                <div class="time-box">
+                    <div class="label">已用时间</div>
+                    <div class="value" id="elapsedTime">00:00</div>
+                </div>
+                <div class="time-box">
+                    <div class="label">剩余时间</div>
+                    <div class="value" id="remainingTime">00:00</div>
+                </div>
+            </div>
+            
+            <div class="status" id="statusText">正在执行中...</div>
+            
+            <div class="control-btns">
+                <button class="control-btn pause-btn" id="pauseBtn" onclick="togglePause()">⏸ 暂停</button>
+                <button class="control-btn done-btn" onclick="completeTask()">✓ 完成</button>
+                <button class="control-btn cancel-btn" onclick="cancelTask()">✕ 取消</button>
+            </div>
+        </div>
+        
+        <div class="complete-panel" id="completePanel">
+            <div class="complete-icon">🎉</div>
+            <div class="complete-title">任务完成！</div>
+            <div class="complete-msg" id="completeMsg">用时 15 分钟</div>
+            <button class="new-task-btn" onclick="resetTask()">开始新任务 →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'time';
+        let isRunning = false;
+        let isPaused = false;
+        let progressInterval = null;
+        let updateInterval = null;
+        let startTime = null;
+        let pausedTime = 0;
+        let totalTime = 0;
+        let currentProgress = 0;
+        
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'time') {
+                document.getElementById('timeInput').classList.remove('hidden');
+                document.getElementById('countInput').classList.add('hidden');
+            } else {
+                document.getElementById('timeInput').classList.add('hidden');
+                document.getElementById('countInput').classList.remove('hidden');
+            }
+        }
+        
+        function startTask() {
+            const taskName = document.getElementById('taskName').value || '未命名任务';
+            document.getElementById('displayTaskName').textContent = taskName;
+            
+            if (currentMode === 'time') {
+                const minutes = parseInt(document.getElementById('totalMinutes').value) || 30;
+                totalTime = minutes * 60 * 1000;
+            } else {
+                const steps = parseInt(document.getElementById('totalSteps').value) || 10;
+                totalTime = steps;
+                document.querySelector('.time-info').style.display = 'none';
+            }
+            
+            document.getElementById('setupPanel').style.display = 'none';
+            document.getElementById('progressPanel').style.display = 'block';
+            
+            startTime = Date.now();
+            isRunning = true;
+            isPaused = false;
+            currentProgress = 0;
+            
+            // 每10秒更新一次显示
+            updateInterval = setInterval(updateDisplay, 10000);
+            
+            // 每100ms更新进度（平滑动画）
+            progressInterval = setInterval(updateProgress, 100);
+            
+            updateDisplay();
+        }
+        
+        function updateProgress() {
+            if (!isRunning || isPaused) return;
+            
+            if (currentMode === 'time') {
+                const elapsed = Date.now() - startTime - pausedTime;
+                currentProgress = Math.min(100, (elapsed / totalTime) * 100);
+                
+                if (elapsed >= totalTime) {
+                    completeTask();
+                    return;
+                }
+            }
+            
+            // 更新圆环
+            const circle = document.getElementById('progressCircle');
+            const offset = 553 - (553 * currentProgress / 100);
+            circle.style.strokeDashoffset = offset;
+            
+            // 更新百分比文字
+            document.getElementById('percentage').textContent = Math.floor(currentProgress) + '%';
+        }
+        
+        function updateDisplay() {
+            if (!isRunning || isPaused) return;
+            
+            if (currentMode === 'time') {
+                const elapsed = Date.now() - startTime - pausedTime;
+                const remaining = Math.max(0, totalTime - elapsed);
+                
+                document.getElementById('elapsedTime').textContent = formatTime(elapsed);
+                document.getElementById('remainingTime').textContent = formatTime(remaining);
+                
+                // 每10秒震动一次提醒（如果支持）
+                if (navigator.vibrate && elapsed > 0 && elapsed % 10000 < 100) {
+                    navigator.vibrate(50);
+                }
+            } else {
+                document.getElementById('statusText').textContent = `已完成 ${Math.floor(currentProgress)}%`;
+            }
+        }
+        
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+        }
+        
+        function togglePause() {
+            const btn = document.getElementById('pauseBtn');
+            
+            if (isPaused) {
+                isPaused = false;
+                btn.textContent = '⏸ 暂停';
+                document.getElementById('statusText').textContent = '正在执行中...';
+            } else {
+                isPaused = true;
+                pausedTime += Date.now() - startTime;
+                btn.textContent = '▶ 继续';
+                document.getElementById('statusText').textContent = '已暂停';
+            }
+        }
+        
+        function completeTask() {
+            isRunning = false;
+            clearInterval(progressInterval);
+            clearInterval(updateInterval);
+            
+            // 震动提醒（3次长震动）
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 200, 500, 200, 500]);
+            }
+            
+            const elapsed = Date.now() - startTime - pausedTime;
+            const minutes = Math.floor(elapsed / 60000);
+            
+            document.getElementById('progressPanel').style.display = 'none';
+            document.getElementById('completePanel').style.display = 'block';
+            document.getElementById('completeMsg').textContent = 
+                `用时 ${minutes} 分钟，完成度 100%`;
+        }
+        
+        function cancelTask() {
+            if (!confirm('确定要取消当前任务吗？')) return;
+            
+            isRunning = false;
+            clearInterval(progressInterval);
+            clearInterval(updateInterval);
+            resetTask();
+        }
+        
+        function resetTask() {
+            document.getElementById('setupPanel').style.display = 'block';
+            document.getElementById('progressPanel').style.display = 'none';
+            document.getElementById('completePanel').style.display = 'none';
+            document.querySelector('.time-info').style.display = 'flex';
+            
+            document.getElementById('progressCircle').style.strokeDashoffset = 553;
+            document.getElementById('percentage').textContent = '0%';
+            document.getElementById('pauseBtn').textContent = '⏸ 暂停';
+            
+            pausedTime = 0;
+            currentProgress = 0;
+        }
+        
+        // 计数模式下的手动进度增加
+        document.addEventListener('keydown', (e) => {
+            if (currentMode === 'count' && isRunning && !isPaused) {
+                if (e.code === 'Space' || e.code === 'ArrowRight') {
+                    e.preventDefault();
+                    const increment = 100 / totalTime;
+                    currentProgress = Math.min(100, currentProgress + increment);
+                    
+                    // 更新显示
+                    const circle = document.getElementById('progressCircle');
+                    const offset = 553 - (553 * currentProgress / 100);
+                    circle.style.strokeDashoffset = offset;
+                    document.getElementById('percentage').textContent = Math.floor(currentProgress) + '%';
+                    
+                    if (currentProgress >= 100) {
+                        completeTask();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
