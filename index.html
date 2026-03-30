@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#1e3a5f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -40,12 +40,13 @@
 
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 20px;
+            padding: calc(20px + env(safe-area-inset-top)) 20px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding-top: max(20px, env(safe-area-inset-top));
         }
 
         .header h1 {
@@ -336,8 +337,9 @@
 
         .training-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 60px 20px 30px;
+            padding: calc(60px + env(safe-area-inset-top)) 20px 30px;
             position: relative;
+            padding-top: max(60px, calc(40px + env(safe-area-inset-top)));
         }
 
         .back-btn {
