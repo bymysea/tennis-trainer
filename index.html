@@ -809,6 +809,44 @@
     </style>
 </head>
 <body>
+    <!-- Setup Modal -->
+    <div id="setup-modal" class="modal-overlay" style="display: none;">
+        <div class="modal" style="max-width: 360px;">
+            <div class="success-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">🎯</div>
+            <h3>设置初始水平</h3>
+            <p style="font-size: 13px; margin-bottom: 20px;">请输入你当前的各项技能水平（2.0-3.5），雷达图会根据训练进度动态更新</p>
+            
+            <div class="skill-inputs" style="margin-bottom: 24px;">
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 14px;">🎾 正手</span>
+                    <input type="number" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 14px;">🎯 反手</span>
+                    <input type="number" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 14px;">🚀 发球</span>
+                    <input type="number" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 14px;">⚡ 接发</span>
+                    <input type="number" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 14px;">🏃 截击</span>
+                    <input type="number" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+                <div class="skill-input-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                    <span style="font-size: 14px;">💪 步法</span>
+                    <input type="number" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" style="width: 70px; padding: 8px; background: var(--card); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; font-size: 14px;">
+                </div>
+            </div>
+            
+            <button class="modal-btn" onclick="saveSetup()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">开始训练 →</button>
+        </div>
+    </div>
+
     <!-- Home Page -->
     <div id="home-page" class="page active">
         <div class="header">
@@ -1108,17 +1146,21 @@
             currentWeek: 1,
             currentSession: 1,
             completedSessions: [],
-            skillLevels: {
-                forehand: 2.5,
-                backhand: 2.5,
-                serve: 2.5,
-                return: 2.5,
-                volley: 2.5,
-                fitness: 2.5
-            },
+            skillLevels: null, // Will be set in setup
             streak: 0,
             lastTrainingDate: null,
-            totalHours: 0
+            totalHours: 0,
+            firstTime: true
+        };
+
+        // Default skills if not set
+        const defaultSkills = {
+            forehand: 2.5,
+            backhand: 2.5,
+            serve: 2.5,
+            return: 2.5,
+            volley: 2.5,
+            fitness: 2.5
         };
 
         let currentDrillsCompleted = [];
@@ -1437,9 +1479,52 @@
             });
         }
 
+        // Show setup modal
+        function showSetup() {
+            document.getElementById('setup-modal').style.display = 'flex';
+            if (state.skillLevels) {
+                document.getElementById('setup-forehand').value = state.skillLevels.forehand;
+                document.getElementById('setup-backhand').value = state.skillLevels.backhand;
+                document.getElementById('setup-serve').value = state.skillLevels.serve;
+                document.getElementById('setup-return').value = state.skillLevels.return;
+                document.getElementById('setup-volley').value = state.skillLevels.volley;
+                document.getElementById('setup-fitness').value = state.skillLevels.fitness;
+            }
+        }
+
+        // Save setup
+        function saveSetup() {
+            const forehand = parseFloat(document.getElementById('setup-forehand').value) || 2.5;
+            const backhand = parseFloat(document.getElementById('setup-backhand').value) || 2.5;
+            const serve = parseFloat(document.getElementById('setup-serve').value) || 2.5;
+            const return_ = parseFloat(document.getElementById('setup-return').value) || 2.5;
+            const volley = parseFloat(document.getElementById('setup-volley').value) || 2.5;
+            const fitness = parseFloat(document.getElementById('setup-fitness').value) || 2.5;
+            
+            const clamp = (v) => Math.max(2.0, Math.min(3.5, v));
+            
+            state.skillLevels = {
+                forehand: clamp(forehand),
+                backhand: clamp(backhand),
+                serve: clamp(serve),
+                return: clamp(return_),
+                volley: clamp(volley),
+                fitness: clamp(fitness)
+            };
+            state.firstTime = false;
+            saveState();
+            
+            document.getElementById('setup-modal').style.display = 'none';
+            renderHome();
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            renderHome();
+            if (state.firstTime || !state.skillLevels) {
+                showSetup();
+            } else {
+                renderHome();
+            }
             
             // Register Service Worker
             if ('serviceWorker' in navigator) {
