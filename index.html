@@ -961,11 +961,23 @@
 
     <!-- Achievement Modal -->
     <div class="modal-overlay" id="achievement-modal">
-        <div class="achievement-modal">
-            <div class="achievement-icon" id="achievement-icon">🏆</div>
-            <h3 id="achievement-title">训练完成！</h3>
-            <p id="achievement-desc">继续保持，距离3.5又近了一步！</p>
-            <button class="achievement-btn" onclick="closeAchievement()">继续加油</button>
+        <div class="achievement-modal" style="padding: 40px 24px;">
+            <div class="achievement-icon" style="font-size: 80px; margin-bottom: 20px;">🎉</div>
+            <h3 style="font-size: 28px; margin-bottom: 12px;">训练完成！</h3>
+            <p style="color: var(--text-muted); margin-bottom: 24px;">太棒了！坚持训练是提升的关键</p>
+            
+            <div style="background: rgba(74, 222, 128, 0.15); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px;">获得经验值</div>
+                <div style="font-size: 36px; font-weight: 700; color: var(--accent);">+50 XP</div>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; margin-bottom: 24px; text-align: left;">
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">下一次训练</div>
+                <div id="next-training-title" style="font-size: 18px; font-weight: 600; margin-bottom: 4px;">反手基础训练</div>
+                <div id="next-training-info" style="font-size: 13px; color: var(--text-muted);">第 1 周 · 第 2 次 · 重心调整 · 转胯发力</div>
+            </div>
+            
+            <button class="achievement-btn" onclick="closeAchievement()" style="width: 100%; padding: 16px; font-size: 17px; border-radius: 14px;">继续 →</button>
         </div>
     </div>
 
@@ -1476,7 +1488,7 @@
                     </div>
                     <div class="drill-desc">${drill.desc}</div>
                     <button class="complete-btn" id="drill-btn-${index}" onclick="toggleDrill(${index})">
-                        标记完成
+                        点击确认完成此练习
                     </button>
                 `;
                 drillList.appendChild(drillCard);
@@ -1492,15 +1504,18 @@
             currentDrillsCompleted[index] = !currentDrillsCompleted[index];
             const card = document.getElementById(`drill-${index}`);
             const btn = document.getElementById(`drill-btn-${index}`);
+            const title = card.querySelector('.drill-title h4');
 
             if (currentDrillsCompleted[index]) {
                 card.classList.add('completed');
                 btn.classList.add('completed');
-                btn.textContent = '已完成';
+                btn.innerHTML = '✓ 已完成✓';
+                if (title) title.style.textDecoration = 'line-through';
             } else {
                 card.classList.remove('completed');
                 btn.classList.remove('completed');
-                btn.textContent = '标记完成';
+                btn.textContent = '点击确认完成此练习';
+                if (title) title.style.textDecoration = 'none';
             }
 
             updateCheckinButton();
@@ -1512,10 +1527,16 @@
 
             if (allCompleted && currentDrillsCompleted.length > 0) {
                 btn.disabled = false;
-                btn.textContent = '完成打卡 ✓';
+                btn.textContent = '完成训练打卡 ✓';
+                btn.style.background = 'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%)';
+                btn.style.color = 'var(--primary-dark)';
+                btn.style.opacity = '1';
             } else {
                 btn.disabled = true;
-                btn.textContent = `完成打卡 (${currentDrillsCompleted.filter(c => c).length}/${currentDrillsCompleted.length})`;
+                btn.textContent = `请先完成所有练习 (${currentDrillsCompleted.filter(c => c).length}/${currentDrillsCompleted.length})`;
+                btn.style.background = 'rgba(255,255,255,0.1)';
+                btn.style.color = 'var(--text-muted)';
+                btn.style.opacity = '0.6';
             }
         }
 
@@ -1563,6 +1584,15 @@
         }
 
         function showAchievement() {
+            // Populate next training info
+            const nextTraining = getNextTraining();
+            if (nextTraining) {
+                document.getElementById('next-training-title').textContent = nextTraining.title;
+                document.getElementById('next-training-info').textContent = `第 ${nextTraining.week} 周 · 第 ${nextTraining.session} 次 · ${nextTraining.subtitle}`;
+            } else {
+                document.getElementById('next-training-title').textContent = '恭喜完成全部训练！';
+                document.getElementById('next-training-info').textContent = '你已经完成了20周全部训练计划';
+            }
             document.getElementById('achievement-modal').classList.add('active');
         }
 
