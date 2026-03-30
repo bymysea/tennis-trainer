@@ -1568,19 +1568,27 @@
 
         function closeAchievement() {
             document.getElementById('achievement-modal').classList.remove('active');
-            // Force refresh current training data
+            // Force reload state from storage to get updated currentWeek/Session
+            const savedState = localStorage.getItem('tennisTrainerState');
+            if (savedState) {
+                state = JSON.parse(savedState);
+            }
             currentDrillsCompleted = [];
             backToHome();
-            // Small delay to ensure state is saved
-            setTimeout(() => {
-                updateHomePage();
-                renderProgressPage();
-            }, 100);
+            // Force refresh display
+            updateHomePage();
         }
 
         function backToHome() {
             document.getElementById('training-page').classList.remove('active');
             document.getElementById('home-page').classList.add('active');
+            // Refresh state when returning to home
+            const savedState = localStorage.getItem('tennisTrainerState');
+            if (savedState) {
+                state = JSON.parse(savedState);
+            }
+            currentDrillsCompleted = [];
+            updateHomePage();
         }
 
         function switchTab(tab) {
