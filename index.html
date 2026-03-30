@@ -729,9 +729,9 @@
         .skill-input-group {
             display: flex;
             align-items: center;
-            padding: 14px 0;
+            justify-content: space-between;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            gap: 24px;
         }
 
         .skill-input-group:last-of-type {
@@ -742,23 +742,29 @@
         .skill-label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            min-width: 100px;
-            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .skill-icon {
+            width: 28px;
+            text-align: center;
+            margin-right: 4px;
+        }
+
+        .skill-name {
+            color: var(--text);
         }
 
         .skill-input {
-            width: 90px;
-            padding: 10px 12px;
+            width: 80px;
+            padding: 10px 0;
             background: rgba(255,255,255,0.1);
             border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text);
-            font-size: 17px;
+            font-size: 16px;
             text-align: center;
             font-weight: 600;
-            flex-shrink: 0;
         }
 
         .skill-input:focus {
@@ -999,27 +1005,27 @@
             </div>
             
             <div class="skill-input-group">
-                <span class="skill-label">🎾 正手</span>
+                <span class="skill-label"><span class="skill-icon">🎾</span> <span class="skill-name">正手</span></span>
                 <input type="number" class="skill-input" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             <div class="skill-input-group">
-                <span class="skill-label">🎯 反手</span>
+                <span class="skill-label"><span class="skill-icon">🎯</span> <span class="skill-name">反手</span></span>
                 <input type="number" class="skill-input" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             <div class="skill-input-group">
-                <span class="skill-label">🚀 发球</span>
+                <span class="skill-label"><span class="skill-icon">🚀</span> <span class="skill-name">发球</span></span>
                 <input type="number" class="skill-input" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             <div class="skill-input-group">
-                <span class="skill-label">⚡ 接发</span>
+                <span class="skill-label"><span class="skill-icon">⚡</span> <span class="skill-name">接发</span></span>
                 <input type="number" class="skill-input" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             <div class="skill-input-group">
-                <span class="skill-label">🏃 截击</span>
+                <span class="skill-label"><span class="skill-icon">🏃</span> <span class="skill-name">截击</span></span>
                 <input type="number" class="skill-input" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             <div class="skill-input-group">
-                <span class="skill-label">💪 体能</span>
+                <span class="skill-label"><span class="skill-icon">💪</span> <span class="skill-name">体能</span></span>
                 <input type="number" class="skill-input" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
             
