@@ -40,7 +40,7 @@
 
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 20px;
+            padding: calc(20px + env(safe-area-inset-top)) 20px 20px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -442,284 +442,158 @@
             border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-            white-space: nowrap;
         }
 
         .drill-desc {
-            color: var(--text-muted);
             font-size: 14px;
-            line-height: 1.6;
+            color: var(--text-muted);
+            line-height: 1.5;
             margin-bottom: 16px;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
         }
 
-        .drill-check {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .complete-btn {
+            width: 100%;
             padding: 14px;
-            background: rgba(255,255,255,0.08);
+            background: transparent;
+            border: 2px solid var(--accent);
             border-radius: 12px;
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .drill-check:active {
-            background: rgba(255,255,255,0.12);
-            border-color: var(--accent);
-        }
-
-        .checkbox {
-            width: 26px;
-            height: 26px;
-            border: 3px solid var(--text-muted);
-            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
+            gap: 8px;
         }
 
-        .drill-check.completed .checkbox {
+        .complete-btn:active {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .complete-btn.completed {
             background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .drill-check.completed .checkbox::after {
-            content: '✓';
             color: var(--primary-dark);
+        }
+
+        .complete-btn.completed::before {
+            content: '✓';
             font-weight: 700;
-            font-size: 16px;
         }
 
-        .drill-check span {
-            font-size: 15px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .drill-check.completed span {
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: line-through;
-        }
-
-        .complete-training-btn {
+        /* Check-in Button */
+        .checkin-section {
             position: fixed;
-            bottom: 100px;
-            left: 16px;
-            right: 16px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            padding: 16px;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            z-index: 50;
+        }
+
+        .checkin-btn {
+            width: 100%;
             padding: 18px;
             background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            color: var(--primary-dark);
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
+            color: var(--primary-dark);
             font-size: 17px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(74, 222, 128, 0.35);
             transition: all 0.2s;
-            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .complete-training-btn:disabled {
+        .checkin-btn:disabled {
             background: #475569;
             color: var(--text-muted);
-            box-shadow: none;
             cursor: not-allowed;
         }
 
-        .complete-training-btn:not(:disabled):active {
-            transform: scale(0.97);
-        }
-
-        /* Success Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 40px 32px;
-            text-align: center;
-            max-width: 340px;
-            width: 100%;
-            animation: modalIn 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            border-radius: 50%;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            animation: bounce 0.6s ease;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .modal h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .modal p {
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .xp-earned {
-            background: rgba(74, 222, 128, 0.15);
-            padding: 16px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-
-        .xp-earned .label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .xp-earned .value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            color: var(--primary-dark);
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-btn:active {
-            transform: scale(0.97);
+        .checkin-btn:not(:disabled):active {
+            transform: scale(0.98);
         }
 
         /* Progress Page */
-        .timeline {
+        .progress-list {
             padding: 16px;
             padding-bottom: 100px;
         }
 
-        .timeline-item {
+        .week-section {
+            margin-bottom: 20px;
+        }
+
+        .week-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+            padding-left: 8px;
+        }
+
+        .session-item {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 8px;
             display: flex;
-            gap: 16px;
-            padding-bottom: 24px;
-            position: relative;
+            align-items: center;
+            gap: 12px;
+            opacity: 0.5;
         }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 44px;
-            bottom: 0;
-            width: 3px;
-            background: var(--card);
-            border-radius: 2px;
+        .session-item.completed {
+            opacity: 1;
+            border-left: 3px solid var(--accent);
         }
 
-        .timeline-item:last-child::before {
-            display: none;
+        .session-item.current {
+            opacity: 1;
+            border: 2px solid var(--accent);
         }
 
-        .timeline-dot {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--card);
+        .session-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
-            flex-shrink: 0;
-            z-index: 1;
-            border: 3px solid transparent;
-            transition: all 0.2s;
+            font-size: 18px;
+            background: rgba(255,255,255,0.1);
         }
 
-        .timeline-item.completed .timeline-dot {
+        .session-item.completed .session-icon {
             background: var(--accent);
-            color: var(--primary-dark);
         }
 
-        .timeline-item.current .timeline-dot {
-            background: var(--primary);
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.2);
-        }
-
-        .timeline-content {
-            flex: 1;
-            background: var(--card);
-            border-radius: 16px;
-            padding: 16px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .timeline-item.current .timeline-content {
-            border-color: var(--accent);
-        }
-
-        .timeline-content h4 {
-            font-size: 15px;
+        .session-info h4 {
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .timeline-content p {
-            font-size: 13px;
+        .session-info p {
+            font-size: 12px;
             color: var(--text-muted);
         }
 
+        .session-status {
+            margin-left: auto;
+            font-size: 20px;
+        }
+
+        /* Tab Bar */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -728,8 +602,8 @@
             background: var(--card);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0 28px;
-            border-top: 2px solid rgba(255,255,255,0.08);
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255,255,255,0.1);
             z-index: 100;
         }
 
@@ -743,66 +617,177 @@
             border: none;
             color: var(--text-muted);
             font-size: 12px;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
             padding: 8px;
-            border-radius: 12px;
+            transition: all 0.2s;
         }
 
         .tab-btn.active {
             color: var(--accent);
-            background: rgba(74, 222, 128, 0.1);
-        }
-
-        .tab-btn:active {
-            transform: scale(0.95);
         }
 
         .tab-btn .icon {
-            width: 28px;
-            height: 28px;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 24px;
+            line-height: 1;
         }
 
-        .empty-state {
+        /* Achievement Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .achievement-modal {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px 24px;
             text-align: center;
-            padding: 60px 20px;
+            max-width: 320px;
+            width: 100%;
+            animation: modalIn 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .achievement-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .achievement-modal h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .achievement-modal p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .achievement-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            color: var(--primary-dark);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Setup Modal */
+        .setup-modal {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        .setup-modal h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .setup-modal .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .skill-input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .skill-input-group:last-of-type {
+            border-bottom: none;
+            margin-bottom: 16px;
+        }
+
+        .skill-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .skill-input {
+            width: 70px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .skill-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .setup-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            color: var(--primary-dark);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .level-preview {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .level-preview .label {
+            font-size: 12px;
             color: var(--text-muted);
         }
 
-        .empty-state .icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .next-training-preview {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 12px;
-            text-align: left;
-        }
-
-        .next-training-preview .label {
-            font-size: 12px;
-            opacity: 0.7;
-            margin-bottom: 4px;
-        }
-
-        .next-training-preview .title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .next-training-preview .subtitle {
-            font-size: 13px;
-            opacity: 0.8;
+        .level-preview .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
         }
     </style>
 </head>
@@ -817,20 +802,18 @@
             <div class="level-badge">
                 <span>等级</span>
                 <span id="current-level">2.5</span>
-                <div class="progress">
-                    <div class="progress-bar" id="level-progress" style="width: 0%"></div>
-                </div>
+                <div class="progress"><div class="progress-bar" id="level-progress"></div></div>
                 <span>3.5</span>
             </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="number" id="total-sessions">0</div>
+                <div class="number" id="completed-count">0</div>
                 <div class="label">已完成训练</div>
             </div>
             <div class="stat-card">
-                <div class="number" id="current-streak">0</div>
+                <div class="number" id="streak-days">0</div>
                 <div class="label">连续打卡</div>
             </div>
             <div class="stat-card">
@@ -842,29 +825,56 @@
         <div class="section-title">技能雷达</div>
         <div class="skills-radar">
             <div class="radar-container">
-                <svg class="radar-svg" viewBox="0 0 200 200">
-                    <polygon points="100,20 170,60 170,140 100,180 30,140 30,60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <polygon points="100,40 150,70 150,130 100,160 50,130 50,70" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <polygon points="100,60 130,80 130,120 100,140 70,120 70,80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <polygon id="skill-polygon" points="100,100 100,100 100,100 100,100 100,100 100,100" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="2"/>
+                <svg class="radar-svg" viewBox="0 0 200 180">
+                    <defs>
+                        <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4ade80;stop-opacity:0.3"/>
+                            <stop offset="100%" style="stop-color:#4ade80;stop-opacity:0.1"/>
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Grid circles - 2.5, 3.0, 3.5 levels -->
+                    <polygon points="100,70 126,85 126,115 100,130 74,115 74,85" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                    <polygon points="100,52 139,74 139,114 100,136 61,114 61,74" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4,2"/>
+                    <polygon points="100,34 152,64 152,124 100,154 48,124 48,64" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    
+                    <!-- Axis lines -->
+                    <line x1="100" y1="100" x2="100" y2="34" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <line x1="100" y1="100" x2="152" y2="64" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <line x1="100" y1="100" x2="152" y2="124" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <line x1="100" y1="100" x2="100" y2="154" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <line x1="100" y1="100" x2="48" y2="124" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <line x1="100" y1="100" x2="48" y2="64" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    
+                    <!-- Level markers -->
+                    <text x="100" y="30" fill="rgba(255,255,255,0.4)" font-size="7" text-anchor="middle">3.5</text>
+                    <text x="154" y="62" fill="rgba(255,255,255,0.3)" font-size="6" text-anchor="start">3.0</text>
+                    <text x="154" y="128" fill="rgba(255,255,255,0.3)" font-size="6" text-anchor="start">3.0</text>
+                    <text x="100" y="160" fill="rgba(255,255,255,0.4)" font-size="7" text-anchor="middle">3.5</text>
+                    <text x="46" y="128" fill="rgba(255,255,255,0.3)" font-size="6" text-anchor="end">3.0</text>
+                    <text x="46" y="62" fill="rgba(255,255,255,0.3)" font-size="6" text-anchor="end">3.0</text>
+                    <text x="100" y="68" fill="rgba(255,255,255,0.2)" font-size="5" text-anchor="middle">2.5</text>
+                    
+                    <!-- Skill area - dynamic -->
+                    <polygon id="skill-area" points="100,70 126,85 126,115 100,130 74,115 74,85" fill="url(#radarGradient)" stroke="#4ade80" stroke-width="2"/>
+                    
+                    <!-- Labels -->
+                    <text x="100" y="25" fill="#f8fafc" font-size="11" text-anchor="middle" font-weight="500">正手</text>
+                    <text x="162" y="60" fill="#f8fafc" font-size="11" text-anchor="start" font-weight="500">反手</text>
+                    <text x="162" y="132" fill="#f8fafc" font-size="11" text-anchor="start" font-weight="500">发球</text>
+                    <text x="100" y="168" fill="#f8fafc" font-size="11" text-anchor="middle" font-weight="500">接发</text>
+                    <text x="38" y="132" fill="#f8fafc" font-size="11" text-anchor="end" font-weight="500">截击</text>
+                    <text x="38" y="60" fill="#f8fafc" font-size="11" text-anchor="end" font-weight="500">体能</text>
                 </svg>
-                <div class="skill-labels">
-                    <span class="skill-label" style="top: 8%; left: 50%">正手</span>
-                    <span class="skill-label" style="top: 30%; right: 5%">反手</span>
-                    <span class="skill-label" style="bottom: 30%; right: 5%">发球</span>
-                    <span class="skill-label" style="bottom: 8%; left: 50%">接发</span>
-                    <span class="skill-label" style="bottom: 30%; left: 5%">截击</span>
-                    <span class="skill-label" style="top: 30%; left: 5%">步法</span>
-                </div>
             </div>
         </div>
 
         <div class="section-title">今日训练</div>
         <div class="today-training" id="today-card">
-            <h3>第 <span id="week-num">1</span> 周 · 第 <span id="session-num">1</span> 次</h3>
+            <h3 id="today-week">第 1 周 · 第 1 次</h3>
             <div class="title" id="today-title">正手基础强化</div>
             <div class="subtitle" id="today-subtitle">稳定控球 · 身体发力</div>
-            <button class="start-btn" id="start-btn" onclick="startTodayTraining()">开始训练 →</button>
+            <button class="start-btn" id="start-btn" onclick="showTraining()">开始训练</button>
         </div>
 
         <div class="section-title">训练模块</div>
@@ -873,37 +883,37 @@
                 <div class="module-icon">🎾</div>
                 <h4>正手</h4>
                 <p>身体发力 · 稳定控球</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
             <div class="module-card backhand" onclick="showModule('backhand')">
                 <div class="module-icon">🎯</div>
                 <h4>反手</h4>
                 <p>重心调整 · 转胯发力</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
             <div class="module-card serve" onclick="showModule('serve')">
                 <div class="module-icon">🚀</div>
                 <h4>发球</h4>
                 <p>抛球稳定 · 动作完整</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
             <div class="module-card return" onclick="showModule('return')">
                 <div class="module-icon">⚡</div>
                 <h4>接发球</h4>
                 <p>垫步准备 · 向前送球</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
             <div class="module-card volley" onclick="showModule('volley')">
                 <div class="module-icon">🏃</div>
                 <h4>截击</h4>
                 <p>手腕固定 · 迎球上网</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
             <div class="module-card fitness" onclick="showModule('fitness')">
                 <div class="module-icon">💪</div>
                 <h4>体能</h4>
                 <p>步法训练 · 移动速度</p>
-                <div class="click-hint">点击查看 →</div>
+                <div class="click-hint">查看训练计划</div>
             </div>
         </div>
     </div>
@@ -911,15 +921,16 @@
     <!-- Training Detail Page -->
     <div id="training-page" class="page">
         <div class="training-header">
-            <button class="back-btn" onclick="goBack()">←</button>
+            <button class="back-btn" onclick="backToHome()">←</button>
             <h2 id="training-title">正手基础强化</h2>
-            <p id="training-desc">本周重点：建立正确的击球节奏</p>
+            <p id="training-subtitle">第 1 周 · 第 1 次</p>
         </div>
-        <div class="drill-list" id="drill-list">
+        <div class="drill-list" id="drill-list"></div>
+        <div class="checkin-section">
+            <button class="checkin-btn" id="checkin-btn" onclick="checkIn()">
+                完成打卡
+            </button>
         </div>
-        <button class="complete-training-btn" id="complete-btn" onclick="completeTraining()" disabled>
-            请先完成所有练习
-        </button>
     </div>
 
     <!-- Progress Page -->
@@ -930,178 +941,401 @@
                 训练历程
             </h1>
         </div>
-        <div class="timeline" id="timeline">
-        </div>
+        <div class="progress-list" id="progress-list"></div>
     </div>
 
     <!-- Tab Bar -->
     <div class="tab-bar">
-        <button class="tab-btn active" id="tab-home" onclick="switchTab('home')">
-            <div class="icon">🏠</div>
+        <button class="tab-btn active" onclick="switchTab('home')">
+            <span class="icon">🏠</span>
             <span>首页</span>
         </button>
-        <button class="tab-btn" id="tab-progress" onclick="switchTab('progress')">
-            <div class="icon">📊</div>
+        <button class="tab-btn" onclick="switchTab('progress')">
+            <span class="icon">📊</span>
             <span>进度</span>
         </button>
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="success-modal" onclick="if(event.target===this)closeModal()">
-        <div class="modal">
-            <div class="success-icon">🎉</div>
-            <h3>训练完成！</h3>
-            <p>太棒了！坚持训练是提升的关键</p>
-            <div class="xp-earned">
-                <div class="label">获得经验值</div>
-                <div class="value" id="xp-value">+50 XP</div>
+    <!-- Achievement Modal -->
+    <div class="modal-overlay" id="achievement-modal">
+        <div class="achievement-modal">
+            <div class="achievement-icon" id="achievement-icon">🏆</div>
+            <h3 id="achievement-title">训练完成！</h3>
+            <p id="achievement-desc">继续保持，距离3.5又近了一步！</p>
+            <button class="achievement-btn" onclick="closeAchievement()">继续加油</button>
+        </div>
+    </div>
+
+    <!-- Setup Modal -->
+    <div class="modal-overlay" id="setup-modal">
+        <div class="setup-modal">
+            <h2>设置初始水平</h2>
+            <p class="subtitle">输入你当前各技术项的水平（2.0-3.5）</p>
+            
+            <div class="level-preview">
+                <div class="label">预估当前等级</div>
+                <div class="value" id="preview-level">2.50</div>
             </div>
-            <div class="next-training-preview" id="next-preview">
-                <div class="label">下一次训练</div>
-                <div class="title" id="next-title">反手基础训练</div>
-                <div class="subtitle" id="next-subtitle">第 1 周 · 第 2 次</div>
+            
+            <div class="skill-input-group">
+                <span class="skill-label">🎾 正手</span>
+                <input type="number" class="skill-input" id="setup-forehand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
             </div>
-            <button class="modal-btn" onclick="closeModal()" style="margin-top: 20px;">继续 →</button>
+            <div class="skill-input-group">
+                <span class="skill-label">🎯 反手</span>
+                <input type="number" class="skill-input" id="setup-backhand" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            </div>
+            <div class="skill-input-group">
+                <span class="skill-label">🚀 发球</span>
+                <input type="number" class="skill-input" id="setup-serve" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            </div>
+            <div class="skill-input-group">
+                <span class="skill-label">⚡ 接发</span>
+                <input type="number" class="skill-input" id="setup-return" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            </div>
+            <div class="skill-input-group">
+                <span class="skill-label">🏃 截击</span>
+                <input type="number" class="skill-input" id="setup-volley" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            </div>
+            <div class="skill-input-group">
+                <span class="skill-label">💪 体能</span>
+                <input type="number" class="skill-input" id="setup-fitness" value="2.5" min="2.0" max="3.5" step="0.1" onchange="updatePreview()">
+            </div>
+            
+            <button class="setup-btn" onclick="saveSetup()">开始训练</button>
         </div>
     </div>
 
     <script>
-        // Training Program Data (Weeks 1-8 for demo, can be extended)
+        // Extended 20-week training program
         const trainingProgram = [
-            // Phase 1: Foundation (Weeks 1-4)
-            { week: 1, session: 1, module: 'forehand', title: '正手基础强化', subtitle: '稳定控球 · 身体发力', drills: [
-                { name: '小场对拉', duration: '15分钟', target: '连续20拍不失误', desc: '在小场（发球线内）与搭档对拉，重点是控制而非力量。感受身体转髋带动手臂击球。' },
-                { name: '对墙击球', duration: '10分钟', target: '连续15个回合', desc: '找一面平整的墙，距墙3-5米击球。练习击球节奏和球感。' },
-                { name: '空挥练习', duration: '5分钟', target: '50次标准动作', desc: '无球挥拍，专注于转体→击球→随挥的完整动作链。' }
+            // Foundation Phase (Weeks 1-4)
+            { week: 1, session: 1, module: 'forehand', title: '正手基础入门', subtitle: '动作定型 · 小场控球', drills: [
+                { name: '正手挥拍练习', duration: '15分钟', target: '100次标准动作', desc: '空挥拍，专注动作完整性和身体转动。' },
+                { name: '小场正手对打', duration: '20分钟', target: '连续20拍', desc: '发球线内对打，重点是控球而非力量。' },
+                { name: '正手动作录像', duration: '5分钟', target: '对比标准动作', desc: '录下自己的动作，与教学视频对比。' }
             ]},
-            { week: 1, session: 2, module: 'backhand', title: '反手基础训练', subtitle: '重心调整 · 转胯发力', drills: [
-                { name: '手抛球练习', duration: '15分钟', target: '成功率80%', desc: '搭档手抛球，练习找到最佳击球点。注意降低重心，用前脚找球。' },
-                { name: '对墙反手', duration: '10分钟', target: '连续10个回合', desc: '只用反手对墙击球，体会双反击球时左手的带动作用。' },
-                { name: '转体练习', duration: '5分钟', target: '30次', desc: '徒手练习转体动作，感受腰部发力带动手臂。' }
+            { week: 1, session: 2, module: 'backhand', title: '反手基础入门', subtitle: '握拍调整 · 转体发力', drills: [
+                { name: '反手挥拍练习', duration: '15分钟', target: '100次标准动作', desc: '双反击球动作，注意左手主导。' },
+                { name: '小场反手对打', duration: '20分钟', target: '连续15拍', desc: '专注拍面控制和落点稳定性。' },
+                { name: '反手动图录像', duration: '5分钟', target: '检查转体幅度', desc: '观察身体转动是否充分。' }
             ]},
-            { week: 1, session: 3, module: 'serve', title: '发球动作定型', subtitle: '抛球稳定 · 动作完整', drills: [
-                { name: '抛球练习', duration: '10分钟', target: '20个好抛球', desc: '仅练习抛球，球应垂直向上，落在头顶前方。这是发球稳定的基础。' },
-                { name: '发球线发球', duration: '15分钟', target: '10个好球', desc: '站在发球线，用6成力量发球。重点是动作的完整性，不要追求速度。' },
-                { name: '发球动作挥拍', duration: '5分钟', target: '30次', desc: '无球完整发球动作练习，固定手腕，像向前拍球的感觉。' }
+            { week: 1, session: 3, module: 'fitness', title: '基础体能建立', subtitle: '脚步灵活 · 核心稳定', drills: [
+                { name: '跳绳热身', duration: '10分钟', target: '500次不中断', desc: '建立节奏感和小腿爆发力。' },
+                { name: '球场脚步练习', duration: '15分钟', target: '完成3组', desc: '前后左右移动，模拟击球位置。' },
+                { name: '平板支撑', duration: '10分钟', target: '3组x60秒', desc: '增强核心稳定性，这是发力的基础。' }
             ]},
-
-            // Week 2
-            { week: 2, session: 1, module: 'return', title: '接发球入门', subtitle: '垫步准备 · 向前送球', drills: [
-                { name: '分腿垫步练习', duration: '5分钟', target: '形成肌肉记忆', desc: '对方击球瞬间做分腿垫步，这是接发的关键准备动作。' },
-                { name: '慢速接发', duration: '15分钟', target: '回球率70%', desc: '搭档发慢速球，练习接发。目标是回球过网，不求力量。' },
-                { name: '向前顶球练习', duration: '10分钟', target: '20个深球', desc: '刻意向前送球，让回球更深。避免只向上挑球。' }
+            
+            { week: 2, session: 1, module: 'forehand', title: '正手上旋强化', subtitle: '刷球动作 · 过网高度', drills: [
+                { name: '上旋球练习', duration: '20分钟', target: '80%过网安全', desc: '专注从下向上的刷球动作。' },
+                { name: '深区正手对拉', duration: '20分钟', target: '落点深区', desc: '从底线对拉，球要落在发球线后。' },
+                { name: '正手移动击球', duration: '10分钟', target: '左右各10个', desc: '教练喂球，移动中正手击球。' }
             ]},
-            { week: 2, session: 2, module: 'volley', title: '网前截击基础', subtitle: '手腕固定 · 重心控制', drills: [
-                { name: '手抓球练习', duration: '10分钟', target: '20次', desc: '搭档手抛球，用截击动作手抓球。体会拍面对准来球的感觉。' },
-                { name: '拍颈截击', duration: '10分钟', target: '15个回合', desc: '手持拍颈进行截击，限制引拍幅度，培养简洁动作。' },
-                { name: '靠墙截击', duration: '10分钟', target: '成功率70%', desc: '背靠墙练习，强制限制引拍幅度，改善引拍过大问题。' }
+            { week: 2, session: 2, module: 'backhand', title: '反手上旋强化', subtitle: '拍面控制 · 深度训练', drills: [
+                { name: '反手上旋练习', duration: '20分钟', target: '控制过网高度', desc: '双反打出稳定的上旋球。' },
+                { name: '深区反手对拉', duration: '20分钟', target: '深度+稳定', desc: '底线对拉，控制落点深度。' },
+                { name: '反手稳定性测试', duration: '10分钟', target: '连续30拍', desc: '与教练对拉，不追求力量只追求稳定。' }
             ]},
-            { week: 2, session: 3, module: 'forehand', title: '正手稳定性提升', subtitle: '控球为王 · 减少失误', drills: [
-                { name: '底线对拉', duration: '20分钟', target: '连续15拍', desc: '退到底线对拉，用7成力量，重点是稳定性和深度。' },
-                { name: '落点控制', duration: '10分钟', target: '成功率60%', desc: '指定落点区域，练习控制正手落点。' },
-                { name: '移动中正手', duration: '10分钟', target: '回球率65%', desc: '搭档向左右喂球，练习移动中正手击球。' }
+            { week: 2, session: 3, module: 'serve', title: '发球基础动作', subtitle: '抛球稳定 · 动作完整', drills: [
+                { name: '抛球练习', duration: '15分钟', target: '20个完美抛球', desc: '球垂直上升，在最高点击球。' },
+                { name: '发球动作分解', duration: '15分钟', target: ' trophy姿势正确', desc: ' trophy姿势停留，检查动作完整性。' },
+                { name: '小场发球', duration: '15分钟', target: '50%成功率', desc: '在小发球区内发球，专注动作而非力量。' }
             ]},
-
-            // Week 3
-            { week: 3, session: 1, module: 'backhand', title: '反手稳定性', subtitle: '双反节奏 · 上旋控制', drills: [
-                { name: '小场反手对拉', duration: '15分钟', target: '连续15拍', desc: '小场只打反手，建立反手击球的信心。' },
-                { name: '反手上旋练习', duration: '15分钟', target: '有明显上旋', desc: '练习由下向上击球，制造上旋。注意不要翻拍面。' },
-                { name: '反手深球训练', duration: '10分钟', target: '10个深球', desc: '目标是打深区，体会向前伸展的感觉。' }
+            
+            { week: 3, session: 1, module: 'forehand', title: '正手一致性', subtitle: '深度控制 · 方向变化', drills: [
+                { name: '正手斜线对拉', duration: '20分钟', target: '连续20拍', desc: '正手对拉斜线，保持深度和稳定性。' },
+                { name: '正手直线练习', duration: '15分钟', target: '改变方向', desc: '有意识地将球打向直线方向。' },
+                { name: '正手恢复练习', duration: '10分钟', target: '迅速回位', desc: '击球后快速回到准备位置。' }
             ]},
-            { week: 3, session: 2, module: 'serve', title: '发球进阶', subtitle: '增加速度 · 控制落点', drills: [
-                { name: '底线发球', duration: '15分钟', target: '成功率50%', desc: '退到底线发球，逐步增加力量到8成。' },
-                { name: '落点发球', duration: '15分钟', target: '内角/外角各5个', desc: '练习发内角和外角，建立落点控制。' },
-                { name: '二发练习', duration: '10分钟', target: '成功率80%', desc: '练习高弧度二发，确保不双误。' }
+            { week: 3, session: 2, module: 'backhand', title: '反手一致性', subtitle: '双反稳定 · 切削过渡', drills: [
+                { name: '反手斜线对拉', duration: '20分钟', target: '连续20拍', desc: '双反对拉斜线，稳定输出。' },
+                { name: '反手切削学习', duration: '15分钟', target: '低球处理', desc: '低球时用切削过渡，改变节奏。' },
+                { name: '正反手转换', duration: '10分钟', target: '流畅切换', desc: '跑动起来，正反手自然转换。' }
             ]},
-            { week: 3, session: 3, module: 'fitness', title: '步法专项', subtitle: '快速移动 · 到位击球', drills: [
-                { name: '左右滑步', duration: '10分钟', target: '覆盖整个底线', desc: '底线左右快速滑步，保持低重心。' },
-                { name: '前后移动', duration: '10分钟', target: '20组', desc: '网前↔底线的快速移动。' },
-                { name: '米字跑', duration: '10分钟', target: '5组', desc: '按米字方向跑动，模拟真实比赛移动。' }
+            { week: 3, session: 3, module: 'return', title: '接发球基础', subtitle: '分腿垫步 · 预判启动', drills: [
+                { name: '垫步练习', duration: '10分钟', target: '每次发球前', desc: '对方击球瞬间做分腿垫步。' },
+                { name: '接发球站位', duration: '15分钟', target: '正确站位', desc: '根据对方发球特点调整站位。' },
+                { name: '接发球回球', duration: '20分钟', target: '80%回球率', desc: '不求质量，先保证把球回过去。' }
             ]},
-
-            // Week 4
-            { week: 4, session: 1, module: 'return', title: '接发球提升', subtitle: '应对快球 · 控制回球', drills: [
-                { name: '中速接发', duration: '15分钟', target: '回球率60%', desc: '搭档发中速球，练习减少引拍，直接向前顶。' },
-                { name: '接发分点', duration: '15分钟', target: '左右各5个', desc: '有意识的将接发球回到不同区域。' },
-                { name: '二发抢攻', duration: '10分钟', target: '3个制胜分', desc: '对方二发时，尝试主动进攻。' }
-            ]},
-            { week: 4, session: 2, module: 'volley', title: '截击进阶', subtitle: '迎球上网 · 截击得分', drills: [
-                { name: '正手截击', duration: '10分钟', target: '成功率75%', desc: '正手位截击练习，异侧脚上步。' },
-                { name: '反手截击', duration: '10分钟', target: '成功率75%', desc: '反手位截击练习，同侧脚上步。' },
-                { name: '截击+高压', duration: '15分钟', target: '完成5组', desc: '截击后迅速准备高压球。' }
-            ]},
-            { week: 4, session: 3, module: 'match', title: '实战应用', subtitle: '综合技术 · 比赛模拟', drills: [
-                { name: '发球+第一拍', duration: '15分钟', target: '建立优势5次', desc: '发球后准备打第一拍，建立进攻态势。' },
-                { name: '多拍对攻', duration: '20分钟', target: '完成10个长回合', desc: '与搭档进行多拍对攻，比谁失误少。' },
-                { name: '记分赛', duration: '15分钟', target: '打满4局', desc: '正式记分比赛，应用所学技术。' }
-            ]},
-
-            // Weeks 5-8: Intermediate
-            { week: 5, session: 1, module: 'forehand', title: '正手进攻', subtitle: '增加旋转 · 控制深度', drills: [
-                { name: '正手上旋对拉', duration: '20分钟', target: '连续20拍', desc: '强调上旋，增加过网高度，减少失误。' },
-                { name: '正手变线', duration: '15分钟', target: '成功率60%', desc: '练习正手斜线和直线的变化。' },
-                { name: '正手进攻', duration: '10分钟', target: '5个制胜分', desc: '机会球时敢于进攻，追求角度和速度。' }
-            ]},
-            { week: 5, session: 2, module: 'backhand', title: '反手进攻', subtitle: '双反威力 · 控制方向', drills: [
-                { name: '反手对拉强化', duration: '20分钟', target: '连续20拍', desc: '底线上旋对拉，反手不再只是防守。' },
-                { name: '反手直线', duration: '15分钟', target: '5个好球', desc: '练习反手直线进攻，出其不意。' },
-                { name: '反手上旋高球', duration: '10分钟', target: '成功率70%', desc: '防守时高弧度上旋球，争取时间。' }
-            ]},
-            { week: 5, session: 3, module: 'serve', title: '发球武器化', subtitle: '一发威力 · 二发稳定', drills: [
-                { name: '一发力练习', duration: '15分钟', target: '成功率40%', desc: '全力一发，追求速度和角度。' },
-                { name: '二发上旋', duration: '15分钟', target: '成功率85%', desc: '高弹跳二发，让对方难以下手。' },
-                { name: '发球套路', duration: '10分钟', target: '执行3套', desc: '一发外角+正手进攻等战术套路。' }
-            ]},
-
-            { week: 6, session: 1, module: 'return', title: '接发球战术', subtitle: '预判线路 · 主动接发', drills: [
-                { name: '预判练习', duration: '10分钟', target: '预判准确率50%', desc: '观察抛球和拍面预判发球方向。' },
-                { name: '抢二发', duration: '15分钟', target: '5个主动回球', desc: '对方二发时向前站位，主动进攻。' },
-                { name: '接发分点', duration: '15分钟', target: '控制落点', desc: '有意识的将接发球回到对方弱侧。' }
-            ]},
-            { week: 6, session: 2, module: 'volley', title: '网前统治力', subtitle: '主动上网 · 截击制胜', drills: [
-                { name: '发球上网', duration: '15分钟', target: '截击成功率70%', desc: '发球后主动上网，练习第一截击。' },
-                { name: '截击角度', duration: '15分钟', target: '3个角度截击', desc: '练习大角度截击，让对手无法回球。' },
-                { name: '截击高压', duration: '10分钟', target: '完成高压', desc: '截击后准备高压，结束这一分。' }
-            ]},
-            { week: 6, session: 3, module: 'fitness', title: '爆发力训练', subtitle: '启动速度 · 变向能力', drills: [
-                { name: '折返跑', duration: '10分钟', target: '10组', desc: '底线到发球线的快速折返。' },
-                { name: '侧向移动', duration: '10分钟', target: '覆盖全场', desc: '快速侧向滑步，保持击球姿态。' },
-                { name: '反应训练', duration: '10分钟', target: '快速启动', desc: '听口令或看球启动，练习反应速度。' }
-            ]},
-
-            { week: 7, session: 1, module: 'match', title: '战术演练', subtitle: '控制节奏 · 调动对手', drills: [
-                { name: '斜线对拉', duration: '15分钟', target: '20拍', desc: '正手斜线对拉，寻找机会变线。' },
-                { name: '调动对手', duration: '15分钟', target: '成功5次', desc: '大角度调动对手，创造空档。' },
-                { name: '节奏变化', duration: '10分钟', target: '变化3次', desc: '快慢球结合，打乱对手节奏。' }
-            ]},
-            { week: 7, session: 2, module: 'match', title: '相持能力', subtitle: '多拍稳定 · 减少失误', drills: [
-                { name: '底线马拉松', duration: '20分钟', target: '30拍回合', desc: '只打斜线，看谁先失误，练习耐心。' },
-                { name: '防守转攻', duration: '15分钟', target: '成功3次', desc: '被动防守时寻找机会转为主动。' },
-                { name: '关键分', duration: '10分钟', target: '赢3个', desc: '模拟deuce等关键分，练习心理。' }
-            ]},
-            { week: 7, session: 3, module: 'match', title: '比赛实战', subtitle: '应用所学 · 检验成果', drills: [
-                { name: '正式单打', duration: '40分钟', target: '打满1盘', desc: '正式比赛，应用所有技术。' },
-                { name: '赛后总结', duration: '5分钟', target: '记录3点', desc: '记录今天表现好的和需要改进的。' }
-            ]},
-
-            { week: 8, session: 1, module: 'forehand', title: '正手大师课', subtitle: '各种来球 · 从容应对', drills: [
-                { name: '正手全场', duration: '20分钟', target: '控制全场', desc: '不同高度、速度的来球都用正手处理。' },
-                { name: '正手制胜分', duration: '15分钟', target: '5个制胜', desc: '机会球时打出clean winner。' },
+            
+            { week: 4, session: 1, module: 'forehand', title: '正手建立优势', subtitle: '大角度 · 进攻机会', drills: [
+                { name: '正手大斜线', duration: '20分钟', target: '打开角度', desc: '打出大角度斜线，调动对手。' },
+                { name: '正手进攻球', duration: '15分钟', target: '打深打快', desc: '机会球时敢于发力进攻。' },
                 { name: '正手防守', duration: '10分钟', target: '防住5个', desc: '被动时的正手高球防守。' }
             ]},
-            { week: 8, session: 2, module: 'backhand', title: '反手大师课', subtitle: '双反利器 · 不再弱点', drills: [
+            { week: 4, session: 2, module: 'backhand', title: '反手建立信心', subtitle: '不再回避 · 主动相持', drills: [
                 { name: '反手全场', duration: '20分钟', target: '全场控制', desc: '各种来球的双反处理，不逃避。' },
-                { name: '反手制胜', duration: '15分钟', target: '3个制胜', desc: '反手也能打出制胜分。' },
-                { name: '反手切削', duration: '10分钟', target: '低球处理', desc: '低球时的反手切削过渡。' }
+                { name: '反手变线', duration: '15分钟', target: '直线斜线切换', desc: '反手也能改变方向。' },
+                { name: '反手反击', duration: '10分钟', target: '被动转主动', desc: '从防守中寻找反击机会。' }
             ]},
-            { week: 8, session: 3, module: 'match', title: '技术整合', subtitle: '左右开弓 · 技术全面', drills: [
-                { name: '全场对拉', duration: '20分钟', target: '30拍', desc: '正反手自由切换的长回合。' },
-                { name: '技术统计', duration: '15分钟', target: '统计失误', desc: '记录正反手失误数，找出弱点。' },
-                { name: '改进练习', duration: '10分钟', target: '针对性', desc: '针对弱点多球练习。' }
+            { week: 4, session: 3, module: 'match', title: '基础整合训练', subtitle: '技术串联 · 简单战术', drills: [
+                { name: '底线对拉', duration: '20分钟', target: '30拍回合', desc: '正反手自由切换的长回合。' },
+                { name: '发球+正手', duration: '15分钟', target: '建立优势', desc: '发球后第一板正手进攻。' },
+                { name: '小比赛', duration: '10分钟', target: '使用所学', desc: '实战小比赛，尝试使用学到的技术。' }
+            ]},
+            
+            // Technique Phase (Weeks 5-8)
+            { week: 5, session: 1, module: 'serve', title: '发球力量开发', subtitle: '转体发力 · 速度提升', drills: [
+                { name: '转体练习', duration: '10分钟', target: '动作协调', desc: '发球时身体转动要充分。' },
+                { name: '底线发球', duration: '25分钟', target: '60%成功率', desc: '在底线发球，追求速度和成功率。' },
+                { name: '一区二区切换', duration: '10分钟', target: '控制落点', desc: '练习发一区外角和二区内角。' }
+            ]},
+            { week: 5, session: 2, module: 'return', title: '接发球进阶', subtitle: '预判加强 · 回球质量', drills: [
+                { name: '预判练习', duration: '15分钟', target: '提前移动', desc: '观察对方抛球和动作，提前预判。' },
+                { name: '接发球进攻', duration: '20分钟', target: '抢攻二发', desc: '对弱发球敢于进攻。' },
+                { name: '接发球控制', duration: '10分钟', target: '限制对方', desc: '即使不进攻也要控制落点。' }
+            ]},
+            { week: 5, session: 3, module: 'volley', title: '网前截击入门', subtitle: '截击姿势 · 手腕固定', drills: [
+                { name: '截击动作定型', duration: '15分钟', target: '100次标准', desc: '拍面打开，手腕固定，推挡动作。' },
+                { name: '正手截击', duration: '15分钟', target: '成功率70%', desc: '中场截击，控制落点。' },
+                { name: '反手截击', duration: '15分钟', target: '不躲闪', desc: '反手位敢于截击，不跑开。' }
+            ]},
+            
+            { week: 6, session: 1, module: 'serve', title: '发球多样性', subtitle: '平击上旋 · 战术发球', drills: [
+                { name: '上旋发球', duration: '15分钟', target: '成功率50%', desc: '二发用上旋，提高成功率。' },
+                { name: '平击一发', duration: '15分钟', target: '速度+角度', desc: '一发追求速度和角度。' },
+                { name: '战术发球', duration: '15分钟', target: '针对弱点', desc: '根据对方弱点选择发球方向。' }
+            ]},
+            { week: 6, session: 2, module: 'return', title: '接发球战术', subtitle: '针对不同发球 · 选择回球', drills: [
+                { name: '接快球', duration: '15分钟', target: '减小引拍', desc: '对方发球快时，减小引拍幅度。' },
+                { name: '接上旋球', duration: '15分钟', target: '提前击球', desc: '上旋发球弹起高，要提前击球。' },
+                { name: '接发球后衔接', duration: '15分钟', target: '准备下一拍', desc: '接发后快速回到准备位置。' }
+            ]},
+            { week: 6, session: 3, module: 'volley', title: '网前移动截击', subtitle: '接近网前 · 连续截击', drills: [
+                { name: '截击后上前', duration: '15分钟', target: '每球前进', desc: '截击后向前移动，占据有利位置。' },
+                { name: '连续截击', duration: '15分钟', target: '3板以上', desc: '网前连续截击多个球。' },
+                { name: '截击加高压', duration: '15分钟', target: '高压得分', desc: '高球时转高压球进攻。' }
+            ]},
+            
+            { week: 7, session: 1, module: 'forehand', title: '正手高级控制', subtitle: '不同旋转 · 长短结合', drills: [
+                { name: '上旋+平击切换', duration: '20分钟', target: '控制旋转', desc: '根据情况选择上旋或平击。' },
+                { name: '正手放小球', duration: '15分钟', target: '10个成功', desc: '突然放短，改变节奏。' },
+                { name: '正手挑高球', duration: '10分钟', target: '防守使用', desc: '被动时的挑高球防守。' }
+            ]},
+            { week: 7, session: 2, module: 'backhand', title: '反手高级控制', subtitle: '切削变化 · 全场覆盖', drills: [
+                { name: '双反上旋进攻', duration: '20分钟', target: '打出深度', desc: '双反也能打出有威胁的球。' },
+                { name: '反手切削控制', duration: '15分钟', target: '低球过网', desc: '切削控制落点，改变节奏。' },
+                { name: '反手全场覆盖', duration: '10分钟', target: '不回避', desc: '反手位用双反或切削处理，不跑开。' }
+            ]},
+            { week: 7, session: 3, module: 'match', title: '技术整合进阶', subtitle: '多拍相持 · 机会把握', drills: [
+                { name: '底线多拍', duration: '20分钟', target: '50拍回合', desc: '提升相持能力和耐心。' },
+                { name: '机会球把握', duration: '15分钟', target: '得分率60%', desc: '机会球时敢于进攻并得分。' },
+                { name: '战术组合', duration: '10分钟', target: '使用套路', desc: '大角度+打重复落点等套路。' }
+            ]},
+            
+            { week: 8, session: 1, module: 'fitness', title: '专项体能强化', subtitle: '爆发力 · 耐力 · 敏捷', drills: [
+                { name: '折返跑', duration: '15分钟', target: '10组', desc: '底线到网前折返，提升爆发力。' },
+                { name: '多球移动', duration: '15分钟', target: '持续移动', desc: '连续击球，不给自己休息时间。' },
+                { name: '核心强化', duration: '15分钟', target: '3组训练', desc: '俄罗斯转体、卷腹等核心训练。' }
+            ]},
+            { week: 8, session: 2, module: 'serve', title: '发球稳定性', subtitle: '成功率 · 战术执行', drills: [
+                { name: '一发成功率', duration: '20分钟', target: '50%以上', desc: '专注成功率而非速度。' },
+                { name: '二发不双误', duration: '15分钟', target: '0双误', desc: '二发用上旋，保证不失误。' },
+                { name: '发球局模拟', duration: '10分钟', target: '保发率50%', desc: '模拟发球局，练习保发。' }
+            ]},
+            { week: 8, session: 3, module: 'match', title: '阶段测试赛', subtitle: '检验成果 · 找出弱点', drills: [
+                { name: '单打比赛', duration: '30分钟', target: '使用所学技术', desc: '与水平相近的对手比赛。' },
+                { name: '技术统计', duration: '10分钟', target: '记录数据', desc: '记录各项技术的成功率和失误。' },
+                { name: '总结改进', duration: '5分钟', target: '找出3个重点', desc: '找出最需要改进的3个方面。' }
+            ]},
+            
+            // Integration Phase (Weeks 9-12)
+            { week: 9, session: 1, module: 'forehand', title: '正手比赛应用', subtitle: '压力下的稳定', drills: [
+                { name: '关键分正手', duration: '20分钟', target: '30-30分不失误', desc: '在关键分保持正手稳定。' },
+                { name: '正手制胜分', duration: '15分钟', target: '一局2个', desc: '机会球时用正手打出制胜分。' },
+                { name: '正手防守转攻', duration: '10分钟', target: '3次成功', desc: '从防守位置用正手打出反击。' }
+            ]},
+            { week: 9, session: 2, module: 'backhand', title: '反手比赛应用', subtitle: '不再是被攻击点', drills: [
+                { name: '反手对抗', duration: '20分钟', target: '不主动失误', desc: '与对手反手对拉，保持稳定。' },
+                { name: '反手直线突袭', duration: '15分钟', target: '一局1个', desc: '突然反手打直线，改变节奏。' },
+                { name: '反手切削防守', duration: '10分钟', target: '化解压力', desc: '用切削过渡，等待机会。' }
+            ]},
+            { week: 9, session: 3, module: 'match', title: '相持能力训练', subtitle: '耐心 · 稳定性 · 机会', drills: [
+                { name: '长回合训练', duration: '20分钟', target: '20拍以上', desc: '不急于进攻，等待最佳机会。' },
+                { name: '变线时机', duration: '15分钟', target: '合适时变线', desc: '不是每个球都变线，选择时机。' },
+                { name: '相持后进攻', duration: '10分钟', target: '得分', desc: '相持后抓住机会进攻得分。' }
+            ]},
+            
+            { week: 10, session: 1, module: 'serve', title: '发球局战术', subtitle: '保发意识 · 得分手段', drills: [
+                { name: '发球后第一拍', duration: '20分钟', target: '建立优势', desc: '发球后准备进攻或控制。' },
+                { name: '二发后的防守', duration: '15分钟', target: '准备防守', desc: '二发较弱时，做好防守准备。' },
+                { name: '发球局保发', duration: '10分钟', target: '60%保发率', desc: '练习保发自己的发球局。' }
+            ]},
+            { week: 10, session: 2, module: 'return', title: '接发球局战术', subtitle: '破发意识 · 给压力', drills: [
+                { name: '接发球侵略性', duration: '20分钟', target: '给压力', desc: '接发球敢于打深打角度。' },
+                { name: '二发抢攻', duration: '15分钟', target: '得分率50%', desc: '对方二发时积极进攻。' },
+                { name: '破发点把握', duration: '10分钟', target: '冷静应对', desc: '破发点时保持冷静，选择正确战术。' }
+            ]},
+            { week: 10, session: 3, module: 'volley', title: '网前战术运用', subtitle: '上网时机 · 截击得分', drills: [
+                { name: '发球上网', duration: '15分钟', target: '选择时机', desc: '发球后适时上网截击。' },
+                { name: '底线截击', duration: '15分钟', target: '中场截击', desc: '底线对拉中对方短球时上前截击。' },
+                { name: '网前高压', duration: '15分钟', target: '高压得分', desc: '网前机会球时转高压。' }
+            ]},
+            
+            { week: 11, session: 1, module: 'match', title: '战术组合训练', subtitle: '多种套路 · 灵活应用', drills: [
+                { name: '角度+重复落点', duration: '20分钟', target: '3次成功', desc: '大角度拉开后打重复落点。' },
+                { name: '深浅结合', duration: '15分钟', target: '打乱节奏', desc: '深球后突然放短。' },
+                { name: '切削+上旋', duration: '10分钟', target: '改变节奏', desc: '切削低球后上旋高球。' }
+            ]},
+            { week: 11, session: 2, module: 'match', title: '比赛模拟训练', subtitle: '真实比赛环境', drills: [
+                { name: '抢七练习', duration: '20分钟', target: '模拟压力', desc: '抢七分制，模拟关键分压力。' },
+                { name: '发球局保发', duration: '15分钟', target: '70%成功率', desc: '连续保发自己的发球局。' },
+                { name: '接发球局破发', duration: '10分钟', target: '30%成功率', desc: '争取破发对手的发球局。' }
+            ]},
+            { week: 11, session: 3, module: 'fitness', title: '比赛体能储备', subtitle: '长时间比赛耐力', drills: [
+                { name: '持续移动', duration: '20分钟', target: '不停歇', desc: '模拟比赛持续移动20分钟。' },
+                { name: '爆发力训练', duration: '15分钟', target: '保持爆发', desc: '折返跑、跳跃等爆发力训练。' },
+                { name: '恢复能力', duration: '10分钟', target: '快速恢复', desc: '分与分之间的快速恢复。' }
+            ]},
+            
+            { week: 12, session: 1, module: 'match', title: '技术短板强化', subtitle: '针对性训练 · 补齐短板', drills: [
+                { name: '最弱技术强化', duration: '20分钟', target: '提升到及格', desc: '针对自己最差的技术专项训练。' },
+                { name: '失误控制', duration: '15分钟', target: '减少50%', desc: '刻意控制失误，不打冒险球。' },
+                { name: '优势技术巩固', duration: '10分钟', target: '成为武器', desc: '把最好的技术练成得分手段。' }
+            ]},
+            { week: 12, session: 2, module: 'match', title: '心理素质训练', subtitle: '关键分 · 落后时 · 领先时', drills: [
+                { name: '关键分模拟', duration: '15分钟', target: '冷静应对', desc: '模拟30-30、占先等关键分。' },
+                { name: '落后追分', duration: '15分钟', target: '不放弃', desc: '模拟0-40落后，练习追分。' },
+                { name: '领先保优势', duration: '15分钟', target: '守住优势', desc: '模拟40-0领先，练习不松懈。' }
+            ]},
+            { week: 12, session: 3, module: 'match', title: '阶段总结赛', subtitle: '全面检验 · 总结提升', drills: [
+                { name: '单打测试赛', duration: '30分钟', target: '全力以赴', desc: '与水平相近对手比赛。' },
+                { name: '数据记录', duration: '10分钟', target: '详细统计', desc: '记录所有技术数据。' },
+                { name: '总结计划', duration: '5分钟', target: '下阶段目标', desc: '总结本阶段，制定下阶段计划。' }
+            ]},
+            
+            // Intermediate Phase (Weeks 13-16)
+            { week: 13, session: 1, module: 'match', title: '战术意识提升', subtitle: '观察对手 · 调整战术', drills: [
+                { name: '观察对手弱点', duration: '15分钟', target: '找出3个', desc: '比赛中观察对手弱点。' },
+                { name: '针对性战术', duration: '20分钟', target: '执行到位', desc: '针对对手弱点制定并执行战术。' },
+                { name: '战术调整', duration: '10分钟', target: '灵活变化', desc: '根据场上情况调整战术。' }
+            ]},
+            { week: 13, session: 2, module: 'match', title: '发球局控制', subtitle: '保发信心 · 得分手段', drills: [
+                { name: '发球局80%保发', duration: '20分钟', target: '提高保发率', desc: '练习保发，目标80%以上。' },
+                { name: '发球直接得分', duration: '15分钟', target: 'Ace或发球直得', desc: '提高发球直接得分能力。' },
+                { name: '发球后强攻', duration: '10分钟', target: '建立优势', desc: '发球后第一板建立优势。' }
+            ]},
+            { week: 13, session: 3, module: 'match', title: '接发球局突破', subtitle: '破发机会 · 给压力', drills: [
+                { name: '接发球攻击性', duration: '20分钟', target: '给压力', desc: '接发球时给对方压力。' },
+                { name: '破发点把握', duration: '15分钟', target: '40%成功率', desc: '破发点时的冷静和选择。' },
+                { name: '破发的战术', duration: '10分钟', target: '执行', desc: '接发球局的战术执行。' }
+            ]},
+            
+            { week: 14, session: 1, module: 'match', title: '相持中的变化', subtitle: '节奏 · 旋转 · 落点', drills: [
+                { name: '改变节奏', duration: '20分钟', target: '主动变化', desc: '从快变慢，从慢变快。' },
+                { name: '改变旋转', duration: '15分钟', target: '上旋切削切换', desc: '上旋和切削的变化。' },
+                { name: '改变落点', duration: '10分钟', target: '角度+深浅', desc: '落点的变化组合。' }
+            ]},
+            { week: 14, session: 2, module: 'match', title: '网前战术进阶', subtitle: '选择时机 · 截击质量', drills: [
+                { name: '上网时机', duration: '15分钟', target: '正确选择', desc: '选择正确的上网时机。' },
+                { name: '网前截击质量', duration: '15分钟', target: '得分率60%', desc: '网前截击的得分率。' },
+                { name: '网前防守', duration: '15分钟', target: '不失误', desc: '对方过顶或穿越时的处理。' }
+            ]},
+            { week: 14, session: 3, module: 'match', title: '防守反击训练', subtitle: '被动转主动', drills: [
+                { name: '防守稳定性', duration: '15分钟', target: '不主动失误', desc: '被动时的稳定防守。' },
+                { name: '反击时机', duration: '15分钟', target: '抓住机会', desc: '等待反击的最佳时机。' },
+                { name: '防守转攻', duration: '15分钟', target: '3次成功', desc: '从防守转为进攻并得分。' }
+            ]},
+            
+            { week: 15, session: 1, module: 'match', title: '比赛节奏控制', subtitle: '快慢结合 · 主动权', drills: [
+                { name: '控制比赛节奏', duration: '20分钟', target: '主导节奏', desc: '用球速和落点控制比赛节奏。' },
+                { name: '打乱对方节奏', duration: '15分钟', target: '让对方不适应', desc: '刻意打乱对方喜欢的节奏。' },
+                { name: '保持自己的节奏', duration: '10分钟', target: '不被带偏', desc: '不被对方节奏带跑。' }
+            ]},
+            { week: 15, session: 2, module: 'match', title: '关键分处理', subtitle: '心态 · 选择 · 执行', drills: [
+                { name: '关键分心态', duration: '15分钟', target: '冷静专注', desc: '关键分时保持冷静。' },
+                { name: '关键分选择', duration: '15分钟', target: '正确战术', desc: '关键分时选择正确的战术。' },
+                { name: '关键分执行', duration: '15分钟', target: '不手软', desc: '关键分时敢于执行。' }
+            ]},
+            { week: 15, session: 3, module: 'match', title: '比赛实战演练', subtitle: '真实比赛环境', drills: [
+                { name: '正式单打比赛', duration: '30分钟', target: '全力以赴', desc: '与实力相近对手正式比赛。' },
+                { name: '比赛中调整', duration: '5分钟', target: '快速调整', desc: '比赛中根据情况调整。' },
+                { name: '赛后总结', duration: '5分钟', target: '找出问题', desc: '总结比赛中的问题。' }
+            ]},
+            
+            { week: 16, session: 1, module: 'match', title: '技术全面检验', subtitle: '各项技术 · 综合评估', drills: [
+                { name: '正手综合', duration: '15分钟', target: '稳定+进攻', desc: '正手的稳定性和进攻性。' },
+                { name: '反手综合', duration: '15分钟', target: '不成为弱点', desc: '反手不再是明显弱点。' },
+                { name: '发球接发', duration: '15分钟', target: '建立优势', desc: '发球和接发球的表现。' }
+            ]},
+            { week: 16, session: 2, module: 'match', title: '战术综合运用', subtitle: '多种战术 · 灵活使用', drills: [
+                { name: '战术A运用', duration: '15分钟', target: '熟练执行', desc: '自己最擅长的战术。' },
+                { name: '战术B运用', duration: '15分钟', target: '备用战术', desc: '备选战术的熟练度。' },
+                { name: '战术切换', duration: '15分钟', target: '灵活运用', desc: '根据情况灵活切换战术。' }
+            ]},
+            { week: 16, session: 3, module: 'match', title: '阶段综合测试', subtitle: '全面评估 · 确定水平', drills: [
+                { name: '单打测试赛', duration: '40分钟', target: '认真比赛', desc: '与3.0水平对手比赛。' },
+                { name: '技术数据统计', duration: '10分钟', target: '详细记录', desc: '记录所有数据。' },
+                { name: '水平评估', duration: '5分钟', target: '自我评估', desc: '评估当前真实水平。' }
+            ]},
+            
+            // Advanced Phase (Weeks 17-20)
+            { week: 17, session: 1, module: 'match', title: '接近3.0水平', subtitle: '技术稳定 · 战术清晰', drills: [
+                { name: '与3.0对手比赛', duration: '30分钟', target: '能够抗衡', desc: '与3.0水平对手正式比赛。' },
+                { name: '技术稳定性', duration: '15分钟', target: '失误减少', desc: '各项技术的稳定发挥。' },
+                { name: '战术执行力', duration: '10分钟', target: '执行到位', desc: '战术意图的准确执行。' }
+            ]},
+            { week: 17, session: 2, module: 'match', title: '比赛经验积累', subtitle: '多比赛 · 多总结', drills: [
+                { name: '多场比赛', duration: '40分钟', target: '2-3场比赛', desc: '进行多场比赛积累经验。' },
+                { name: '比赛中的调整', duration: '10分钟', target: '快速适应', desc: '比赛中快速适应对手。' },
+                { name: '赛后总结', duration: '5分钟', target: '找出改进点', desc: '总结每场比赛的得失。' }
+            ]},
+            { week: 17, session: 3, module: 'match', title: '技术细节打磨', subtitle: '精益求精', drills: [
+                { name: '最弱技术强化', duration: '20分钟', target: '提升到3.0', desc: '最弱技术提升到3.0水平。' },
+                { name: '最强技术巩固', duration: '15分钟',目标: '成为武器', desc: '最强技术成为得分手段。' },
+                { name: '技术平衡', duration: '10分钟',目标: '没有明显短板', desc: '各项技术相对均衡。' }
+            ]},
+            
+            { week: 18, session: 1, module: 'match', title: '战术多样化', subtitle: '多套战术 · 应对不同', drills: [
+                { name: '战术储备A', duration: '15分钟',目标: '熟练', desc: '第一套战术的熟练度。' },
+                { name: '战术储备B', duration: '15分钟',目标: '熟练', desc: '第二套战术的熟练度。' },
+                { name: '战术选择', duration: '15分钟',目标: '正确选择', desc: '根据对手选择正确战术。' }
+            ]},
+            { week: 18, session: 2, module: 'match', title: '心理素质强化', subtitle: '高压下表现', drills: [
+                { name: '关键分训练', duration: '20分钟',目标: '冷静应对', desc: '各种关键分的冷静处理。' },
+                { name: '落后时的韧性', duration: '15分钟',目标: '不放弃', desc: '落后时的顽强追分。' },
+                { name: '领先时的专注', duration: '10分钟',目标: '不松懈', desc: '领先时保持专注不松懈。' }
+            ]},
+            { week: 18, session: 3, module: 'match', title: '向3.5迈进', subtitle: '突破瓶颈', drills: [
+                { name: '与3.5对手学习', duration: '20分钟',目标: '观察学习', desc: '与3.5水平对手比赛，观察学习。' },
+                { name: '找出差距', duration: '15分钟',目标: '明确差距', desc: '明确自己与3.5的差距。' },
+                { name: '针对性训练', duration: '10分钟',目标: '缩小差距', desc: '针对差距进行训练。' }
+            ]},
+            
+            { week: 19, session: 1, module: 'match', title: '技术全面提升', subtitle: '接近3.5标准', drills: [
+                { name: '正手3.5标准', duration: '15分钟',目标: '达标', desc: '正手技术达到3.5标准。' },
+                { name: '反手3.5标准', duration: '15分钟',目标: '达标', desc: '反手技术达到3.5标准。' },
+                { name: '发球接发3.5', duration: '15分钟',目标: '达标', desc: '发球接发达到3.5标准。' }
+            ]},
+            { week: 19, session: 2, module: 'match', title: '战术高级运用', subtitle: '高级战术 · 阅读比赛', drills: [
+                { name: '阅读对手', duration: '15分钟',目标: '快速准确', desc: '快速准确阅读对手习惯和弱点。' },
+                { name: '实时调整', duration: '15分钟',目标: '及时调整', desc: '比赛中实时调整战术。' },
+                { name: '心理战术', duration: '15分钟',目标: '影响对手', desc: '用战术影响对手心理。' }
+            ]},
+            { week: 19, session: 3, module: 'match', title: '比赛能力综合', subtitle: '比赛中的表现', drills: [
+                { name: '正式比赛', duration: '40分钟',目标: '真实水平', desc: '正式比赛中展现真实水平。' },
+                { name: '数据统计', duration: '10分钟',目标: '全面记录', desc: '记录比赛中的各项数据。' },
+                { name: '差距分析', duration: '5分钟',目标: '明确3.5差距', desc: '分析与3.5标准的差距。' }
+            ]},
+            
+            { week: 20, session: 1, module: 'match', title: '最终冲刺', subtitle: '达到3.5水平', drills: [
+                { name: '全面技术检验', duration: '20分钟',目标: '各项达标', desc: '各项技术全面检验。' },
+                { name: '战术综合', duration: '15分钟',目标: '熟练运用', desc: '各种战术熟练运用。' },
+                { name: '心理素质', duration: '10分钟',目标: '稳定发挥', desc: '压力下稳定发挥。' }
+            ]},
+            { week: 20, session: 2, module: 'match', title: '最终测试赛', subtitle: '与3.5对手比赛', drills: [
+                { name: '与3.5对手比赛', duration: '40分钟',目标: '能够抗衡', desc: '与3.5水平对手正式比赛。' },
+                { name: '比赛中表现', duration: '10分钟',目标: '稳定输出', desc: '比赛中各项技术稳定输出。' },
+                { name: '比赛结果', duration: '5分钟',目标: '有竞争力', desc: '与3.5对手有竞争力。' }
+            ]},
+            { week: 20, session: 3, module: 'match', title: '达成3.5等级', subtitle: '总结 · 庆祝 · 展望', drills: [
+                { name: '最终评估', duration: '15分钟',目标: '确认3.5', desc: '最终评估确认达到3.5水平。' },
+                { name: '数据总结', duration: '10分钟',目标: '20周数据', desc: '总结20周的所有训练数据。' },
+                { name: '展望未来', duration: '10分钟',目标: '下一步目标', desc: '制定下一个阶段的目标。' }
             ]}
         ];
 
-        // State
+        // State management
         let state = JSON.parse(localStorage.getItem('tennisTrainerState')) || {
             currentWeek: 1,
             currentSession: 1,
@@ -1116,22 +1350,20 @@
             },
             streak: 0,
             lastTrainingDate: null,
-            totalHours: 0
+            totalHours: 0,
+            firstTime: true
         };
 
         let currentDrillsCompleted = [];
 
-        // Save state
         function saveState() {
             localStorage.setItem('tennisTrainerState', JSON.stringify(state));
         }
 
-        // Get current training
         function getCurrentTraining() {
             return trainingProgram.find(t => t.week === state.currentWeek && t.session === state.currentSession);
         }
 
-        // Get next training
         function getNextTraining() {
             const currentIndex = trainingProgram.findIndex(t => t.week === state.currentWeek && t.session === state.currentSession);
             if (currentIndex < trainingProgram.length - 1) {
@@ -1140,108 +1372,93 @@
             return null;
         }
 
-        // Check if current training is already completed today
-        function isCurrentTrainingCompleted() {
-            const training = getCurrentTraining();
-            if (!training) return false;
-            return state.completedSessions.some(s => s.week === training.week && s.session === training.session);
+        function calculateLevel() {
+            const values = Object.values(state.skillLevels);
+            const avg = values.reduce((a, b) => a + b, 0) / values.length;
+            return avg.toFixed(2);
         }
 
-        // Calculate overall level
-        function calculateOverallLevel() {
-            const levels = Object.values(state.skillLevels);
-            const avg = levels.reduce((a, b) => a + b, 0) / levels.length;
-            return avg.toFixed(1);
-        }
-
-        // Update radar chart
         function updateRadarChart() {
-            const svg = document.getElementById('skill-polygon');
-            const center = 100;
-            const maxRadius = 80;
+            const svg = document.getElementById('skill-area');
+            if (!svg) return;
+
+            const centerX = 100;
+            const centerY = 100;
+            const maxRadius = 60; // Distance from center to outer edge (3.5)
+            const minRadius = 15; // Distance from center to inner (2.0)
+
             const skills = ['forehand', 'backhand', 'serve', 'return', 'volley', 'fitness'];
-            
-            const points = skills.map((skill, i) => {
-                const angle = (Math.PI * 2 * i / 6) - Math.PI / 2;
-                const level = (state.skillLevels[skill] - 2.0) / 2.0;
-                const radius = level * maxRadius;
-                const x = center + radius * Math.cos(angle);
-                const y = center + radius * Math.sin(angle);
+            const points = skills.map((skill, index) => {
+                const level = state.skillLevels[skill];
+                const normalizedLevel = (level - 2.0) / 1.5; // 2.0-3.5 maps to 0-1
+                const radius = minRadius + normalizedLevel * (maxRadius - minRadius);
+                const angle = (Math.PI * 2 * index / 6) - Math.PI / 2;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
                 return `${x},${y}`;
             });
-            
+
             svg.setAttribute('points', points.join(' '));
         }
 
-        // Render home page
-        function renderHome() {
-            const training = getCurrentTraining();
-            document.getElementById('current-level').textContent = calculateOverallLevel();
-            document.getElementById('level-progress').style.width = ((calculateOverallLevel() - 2.5) / 1.0 * 100) + '%';
-            document.getElementById('total-sessions').textContent = state.completedSessions.length;
-            document.getElementById('current-streak').textContent = state.streak;
-            document.getElementById('total-hours').textContent = Math.floor(state.totalHours);
-            
-            const todayCard = document.getElementById('today-card');
-            const startBtn = document.getElementById('start-btn');
-            
-            if (training) {
-                document.getElementById('week-num').textContent = training.week;
-                document.getElementById('session-num').textContent = training.session;
-                document.getElementById('today-title').textContent = training.title;
-                document.getElementById('today-subtitle').textContent = training.subtitle;
-                
-                const isCompleted = isCurrentTrainingCompleted();
-                
-                if (isCompleted) {
-                    todayCard.classList.add('completed');
-                    const nextTraining = getNextTraining();
-                    if (nextTraining) {
-                        startBtn.textContent = '查看下一次训练 →';
-                        startBtn.onclick = () => {
-                            state.currentWeek = nextTraining.week;
-                            state.currentSession = nextTraining.session;
-                            saveState();
-                            renderHome();
-                        };
-                    } else {
-                        startBtn.textContent = '恭喜完成所有训练！🎉';
-                        startBtn.onclick = () => {};
-                    }
-                } else {
-                    todayCard.classList.remove('completed');
-                    startBtn.textContent = '开始训练 →';
-                    startBtn.onclick = startTodayTraining;
-                }
-            } else {
-                document.getElementById('today-title').textContent = '训练计划已完成';
-                document.getElementById('today-subtitle').textContent = '恭喜达到3.5水平！';
-                startBtn.textContent = '重新开始 →';
-                startBtn.onclick = () => {
-                    if (confirm('确定要重置所有进度吗？')) {
-                        localStorage.removeItem('tennisTrainerState');
-                        location.reload();
-                    }
-                };
+        function updateHomePage() {
+            document.getElementById('current-level').textContent = calculateLevel();
+            const progress = ((calculateLevel() - 2.0) / 1.5 * 100).toFixed(0);
+            document.getElementById('level-progress').style.width = progress + '%';
+            document.getElementById('completed-count').textContent = state.completedSessions.length;
+            document.getElementById('streak-days').textContent = state.streak;
+            document.getElementById('total-hours').textContent = state.totalHours.toFixed(1);
+
+            const current = getCurrentTraining();
+            if (current) {
+                document.getElementById('today-week').textContent = `第 ${current.week} 周 · 第 ${current.session} 次`;
+                document.getElementById('today-title').textContent = current.title;
+                document.getElementById('today-subtitle').textContent = current.subtitle;
             }
-            
+
             updateRadarChart();
         }
 
-        // Render training page
-        function renderTraining() {
-            const training = getCurrentTraining();
-            if (!training) return;
-            
-            document.getElementById('training-title').textContent = training.title;
-            document.getElementById('training-desc').textContent = training.subtitle;
-            
+        function showSetupModal() {
+            document.getElementById('setup-modal').classList.add('active');
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const skills = ['forehand', 'backhand', 'serve', 'return', 'volley', 'fitness'];
+            let total = 0;
+            skills.forEach(skill => {
+                const val = parseFloat(document.getElementById(`setup-${skill}`).value) || 2.5;
+                total += val;
+            });
+            const avg = (total / 6).toFixed(2);
+            document.getElementById('preview-level').textContent = avg;
+        }
+
+        function saveSetup() {
+            const skills = ['forehand', 'backhand', 'serve', 'return', 'volley', 'fitness'];
+            skills.forEach(skill => {
+                const val = parseFloat(document.getElementById(`setup-${skill}`).value);
+                state.skillLevels[skill] = Math.max(2.0, Math.min(3.5, val));
+            });
+            state.firstTime = false;
+            saveState();
+            document.getElementById('setup-modal').classList.remove('active');
+            updateHomePage();
+        }
+
+        function showTraining() {
+            const current = getCurrentTraining();
+            if (!current) return;
+
+            document.getElementById('training-title').textContent = current.title;
+            document.getElementById('training-subtitle').textContent = `第 ${current.week} 周 · 第 ${current.session} 次 · ${current.subtitle}`;
+
             const drillList = document.getElementById('drill-list');
             drillList.innerHTML = '';
-            
-            currentDrillsCompleted = new Array(training.drills.length).fill(false);
-            
-            training.drills.forEach((drill, index) => {
+            currentDrillsCompleted = new Array(current.drills.length).fill(false);
+
+            current.drills.forEach((drill, index) => {
                 const drillCard = document.createElement('div');
                 drillCard.className = 'drill-card';
                 drillCard.id = `drill-${index}`;
@@ -1250,195 +1467,179 @@
                         <div class="drill-number">${index + 1}</div>
                         <div class="drill-title">
                             <h4>${drill.name}</h4>
-                            <span>⏱ ${drill.duration}</span>
+                            <span>${drill.duration}</span>
                         </div>
                         <div class="target-badge">${drill.target}</div>
                     </div>
                     <div class="drill-desc">${drill.desc}</div>
-                    <div class="drill-check" onclick="toggleDrill(${index})" id="drill-check-${index}">
-                        <div class="checkbox"></div>
-                        <span>点击确认完成此练习</span>
-                    </div>
+                    <button class="complete-btn" id="drill-btn-${index}" onclick="toggleDrill(${index})">
+                        标记完成
+                    </button>
                 `;
                 drillList.appendChild(drillCard);
             });
-            
-            updateCompleteButton();
+
+            updateCheckinButton();
+
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('training-page').classList.add('active');
         }
 
-        // Toggle drill completion
         function toggleDrill(index) {
             currentDrillsCompleted[index] = !currentDrillsCompleted[index];
-            
-            const drillCard = document.getElementById(`drill-${index}`);
-            const drillCheck = document.getElementById(`drill-check-${index}`);
-            
+            const card = document.getElementById(`drill-${index}`);
+            const btn = document.getElementById(`drill-btn-${index}`);
+
             if (currentDrillsCompleted[index]) {
-                drillCard.classList.add('completed');
-                drillCheck.classList.add('completed');
-                drillCheck.querySelector('span').textContent = '已完成 ✓';
+                card.classList.add('completed');
+                btn.classList.add('completed');
+                btn.textContent = '已完成';
             } else {
-                drillCard.classList.remove('completed');
-                drillCheck.classList.remove('completed');
-                drillCheck.querySelector('span').textContent = '点击确认完成此练习';
+                card.classList.remove('completed');
+                btn.classList.remove('completed');
+                btn.textContent = '标记完成';
             }
-            
-            updateCompleteButton();
+
+            updateCheckinButton();
         }
 
-        // Update complete button state
-        function updateCompleteButton() {
-            const allCompleted = currentDrillsCompleted.every(v => v);
-            const btn = document.getElementById('complete-btn');
-            btn.disabled = !allCompleted;
-            btn.textContent = allCompleted ? '完成训练打卡 ✓' : `请先完成所有练习 (${currentDrillsCompleted.filter(v=>v).length}/${currentDrillsCompleted.length})`;
+        function updateCheckinButton() {
+            const btn = document.getElementById('checkin-btn');
+            const allCompleted = currentDrillsCompleted.every(c => c);
+
+            if (allCompleted && currentDrillsCompleted.length > 0) {
+                btn.disabled = false;
+                btn.textContent = '完成打卡 ✓';
+            } else {
+                btn.disabled = true;
+                btn.textContent = `完成打卡 (${currentDrillsCompleted.filter(c => c).length}/${currentDrillsCompleted.length})`;
+            }
         }
 
-        // Complete training
-        function completeTraining() {
-            const training = getCurrentTraining();
-            if (!training) return;
-            
-            // Check if already completed
-            const alreadyCompleted = state.completedSessions.some(s => 
-                s.week === training.week && s.session === training.session
-            );
-            
-            if (alreadyCompleted) {
-                alert('本次训练已经打卡过了！');
-                goBack();
-                return;
-            }
-            
-            // Add to completed
+        function checkIn() {
+            const current = getCurrentTraining();
+            if (!current) return;
+
             state.completedSessions.push({
-                week: training.week,
-                session: training.session,
-                module: training.module,
+                week: current.week,
+                session: current.session,
                 date: new Date().toISOString()
             });
-            
-            // Update skill level
-            const skillIncrease = 0.03;
-            state.skillLevels[training.module] = Math.min(3.5, state.skillLevels[training.module] + skillIncrease);
-            
+
+            // Update skill levels
+            const skillIncrease = 0.02;
+            if (state.skillLevels[current.module]) {
+                state.skillLevels[current.module] = Math.min(3.5, state.skillLevels[current.module] + skillIncrease);
+            }
+
             // Update streak
             const today = new Date().toDateString();
-            const lastDate = state.lastTrainingDate ? new Date(state.lastTrainingDate).toDateString() : null;
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            if (lastDate === today) {
-                // Already trained today, don't increment streak
-            } else if (lastDate === yesterday.toDateString()) {
-                state.streak++;
+            if (state.lastTrainingDate) {
+                const lastDate = new Date(state.lastTrainingDate);
+                const diffDays = (new Date() - lastDate) / (1000 * 60 * 60 * 24);
+                if (diffDays < 2) {
+                    state.streak++;
+                } else {
+                    state.streak = 1;
+                }
             } else {
                 state.streak = 1;
             }
-            
             state.lastTrainingDate = new Date().toISOString();
-            state.totalHours += 0.75;
-            
-            // Get next training for preview
-            const nextTraining = getNextTraining();
-            
-            // Advance to next session
-            if (nextTraining) {
-                state.currentWeek = nextTraining.week;
-                state.currentSession = nextTraining.session;
+            state.totalHours += 1;
+
+            // Move to next training
+            const next = getNextTraining();
+            if (next) {
+                state.currentWeek = next.week;
+                state.currentSession = next.session;
             }
-            
+
             saveState();
-            
-            // Show next training in modal
-            if (nextTraining) {
-                document.getElementById('next-title').textContent = nextTraining.title;
-                document.getElementById('next-subtitle').textContent = `第 ${nextTraining.week} 周 · 第 ${nextTraining.session} 次 · ${nextTraining.subtitle}`;
-            } else {
-                document.getElementById('next-preview').style.display = 'none';
-            }
-            
-            // Show success modal
-            document.getElementById('success-modal').classList.add('active');
+            showAchievement();
         }
 
-        // Close modal
-        function closeModal() {
-            document.getElementById('success-modal').classList.remove('active');
-            goBack();
-            renderHome();
+        function showAchievement() {
+            document.getElementById('achievement-modal').classList.add('active');
         }
 
-        // Start today's training
-        function startTodayTraining() {
-            document.getElementById('home-page').classList.remove('active');
-            document.getElementById('training-page').classList.add('active');
-            renderTraining();
+        function closeAchievement() {
+            document.getElementById('achievement-modal').classList.remove('active');
+            backToHome();
+            updateHomePage();
         }
 
-        // Show module
-        function showModule(module) {
-            // Just start today's training for now
-            startTodayTraining();
-        }
-
-        // Go back
-        function goBack() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        function backToHome() {
+            document.getElementById('training-page').classList.remove('active');
             document.getElementById('home-page').classList.add('active');
-            renderHome();
         }
 
-        // Switch tab
         function switchTab(tab) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
+
             if (tab === 'home') {
-                document.getElementById('tab-home').classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById('home-page').classList.add('active');
-                renderHome();
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                updateHomePage();
             } else if (tab === 'progress') {
-                document.getElementById('tab-progress').classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById('progress-page').classList.add('active');
-                renderProgress();
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                renderProgressPage();
             }
         }
 
-        // Render progress page
-        function renderProgress() {
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
-            
+        function renderProgressPage() {
+            const list = document.getElementById('progress-list');
+            list.innerHTML = '';
+
             const weeks = [...new Set(trainingProgram.map(t => t.week))];
-            
             weeks.forEach(week => {
+                const weekSection = document.createElement('div');
+                weekSection.className = 'week-section';
+
+                const weekHeader = document.createElement('div');
+                weekHeader.className = 'week-header';
+                weekHeader.textContent = `第 ${week} 周`;
+                weekSection.appendChild(weekHeader);
+
                 const weekTrainings = trainingProgram.filter(t => t.week === week);
-                const completedCount = weekTrainings.filter(t => 
-                    state.completedSessions.some(s => s.week === t.week && s.session === t.session)
-                ).length;
-                
-                const isCompleted = completedCount === weekTrainings.length;
-                const isCurrent = week === state.currentWeek;
-                
-                const item = document.createElement('div');
-                item.className = `timeline-item ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}`;
-                item.innerHTML = `
-                    <div class="timeline-dot">${isCompleted ? '✓' : week}</div>
-                    <div class="timeline-content">
-                        <h4>第 ${week} 周</h4>
-                        <p>${completedCount}/${weekTrainings.length} 次训练 · ${weekTrainings[0].title.split('·')[0]}</p>
-                    </div>
-                `;
-                timeline.appendChild(item);
+                weekTrainings.forEach(training => {
+                    const isCompleted = state.completedSessions.some(s => s.week === training.week && s.session === training.session);
+                    const isCurrent = training.week === state.currentWeek && training.session === state.currentSession;
+
+                    const sessionItem = document.createElement('div');
+                    sessionItem.className = 'session-item' + (isCompleted ? ' completed' : '') + (isCurrent ? ' current' : '');
+
+                    const icons = { forehand: '🎾', backhand: '🎯', serve: '🚀', return: '⚡', volley: '🏃', match: '🏆', fitness: '💪' };
+
+                    sessionItem.innerHTML = `
+                        <div class="session-icon">${icons[training.module] || '🎾'}</div>
+                        <div class="session-info">
+                            <h4>${training.title}</h4>
+                            <p>第 ${training.session} 次 · ${training.subtitle}</p>
+                        </div>
+                        <div class="session-status">${isCompleted ? '✓' : isCurrent ? '▶' : '○'}</div>
+                    `;
+                    weekSection.appendChild(sessionItem);
+                });
+
+                list.appendChild(weekSection);
             });
+        }
+
+        function showModule(module) {
+            alert(`${module} 模块详情开发中...`);
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            renderHome();
-            
+            updateHomePage();
+
+            if (state.firstTime) {
+                showSetupModal();
+            }
+
             // Register Service Worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
