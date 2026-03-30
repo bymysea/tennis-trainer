@@ -1,16 +1,12 @@
 {
   "name": "网球进阶教练",
   "short_name": "网球教练",
-  "description": "从2.5到3.5水平的网球进阶训练应用，包含8周系统化训练计划",
+  "description": "从2.5到3.5的20周科学训练计划",
   "start_url": "/tennis-trainer/",
   "display": "standalone",
-  "background_color": "#1e3a5f",
+  "background_color": "#0f172a",
   "theme_color": "#1e3a5f",
   "orientation": "portrait",
-  "scope": "/tennis-trainer/",
-  "lang": "zh-CN",
-  "dir": "ltr",
-  "categories": ["sports", "health", "fitness"],
   "icons": [
     {
       "src": "icon-192.png",
@@ -23,15 +19,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "开始训练",
-      "short_name": "训练",
-      "description": "立即开始今日训练",
-      "url": "/tennis-trainer/?action=train",
-      "icons": [{"src": "icon-96.png", "sizes": "96x96"}]
     }
   ]
 }
