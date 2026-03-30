@@ -7,7 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>网球进阶教练</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVGVubmlzIFRyYWluZXIiLCJzaG9ydF9uYW1lIjoiVGVubmlzIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZTNhNWYiLCJ0aGVtZV9jb2xvciI6IiMxZTNhNWYifQ==">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         * {
             margin: 0;
@@ -1437,6 +1438,13 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderHome();
+            
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW error', err));
+            }
         });
     </script>
 </body>
